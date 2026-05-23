@@ -34,11 +34,11 @@
   padding: 1rem 1.25rem;
   border-radius: var(--mn-radius);
   border: 1px solid var(--mn-border);
-  background: var(--mn-glass);
+  background: var(--mn-surface);
   text-decoration: none;
   color: inherit;
-  transition: border-color 0.2s, transform 0.15s;
-  backdrop-filter: blur(12px);
+  transition: border-color 0.2s, transform 0.15s, box-shadow 0.15s;
+  box-shadow: var(--mn-shadow);
 }
 
 .pacientes-page__card:hover {

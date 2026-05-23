@@ -10,7 +10,7 @@ export function HistorialPreview({ historial }: HistorialPreviewProps) {
     <section className="historial-preview" aria-label="Vista previa del historial generado por IA">
       <header className="historial-preview__header">
         <h2>Historial generado</h2>
-        <p>El médico podrá revisar y editar estos campos en el siguiente paso (FE2).</p>
+        <p>El médico podrá revisar y editar estos campos en el siguiente paso.</p>
       </header>
 
       <dl className="historial-preview__fields">
@@ -47,7 +47,7 @@ export function HistorialPreview({ historial }: HistorialPreviewProps) {
       </dl>
 
       <div className="historial-preview__meds">
-        <h3>Medicamentos disponibles en EPS</h3>
+        <h3>Medicamentos disponibles</h3>
         <ul>
           {historial.medicamentos.disponibles_eps.map((med) => (
             <li key={med.nombre}>
@@ -58,7 +58,7 @@ export function HistorialPreview({ historial }: HistorialPreviewProps) {
       </div>
 
       <div className="historial-preview__meds historial-preview__meds--ideal">
-        <h3>Sugeridos ideales (no EPS)</h3>
+        <h3>Alternativas sugeridas</h3>
         <ul>
           {historial.medicamentos.ideales_sugeridos.map((med) => (
             <li key={med.nombre}>

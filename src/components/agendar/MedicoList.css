@@ -58,6 +58,8 @@
 }
 
 .medico-list__eps {
-  font-size: 0.75rem !important;
-  margin-top: 0.15rem;
+  font-size: 0.72rem !important;
+  margin-top: 0.2rem;
+  color: var(--mn-text-muted) !important;
+  opacity: 0.75;
 }

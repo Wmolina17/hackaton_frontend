@@ -13,7 +13,6 @@ interface MedicamentosSectionProps {
 
 export function MedicamentosSection({
   medicamentos,
-  eps,
   onChange,
   onRefreshCobertura,
   loadingCobertura,
@@ -29,7 +28,7 @@ export function MedicamentosSection({
   return (
     <section className="meds-section" aria-labelledby="meds-heading">
       <div className="meds-section__head">
-        <h3 id="meds-heading">Medicamentos y cobertura EPS</h3>
+        <h3 id="meds-heading">Medicamentos sugeridos</h3>
         {!disabled && onRefreshCobertura && (
           <Button
             variant="secondary"
@@ -37,9 +36,7 @@ export function MedicamentosSection({
             disabled={loadingCobertura}
             onClick={onRefreshCobertura}
           >
-            {loadingCobertura
-              ? "Consultando EPS…"
-              : `Actualizar cobertura (${eps})`}
+            {loadingCobertura ? "Verificando…" : "Verificar disponibilidad"}
           </Button>
         )}
       </div>
@@ -97,7 +94,7 @@ export function MedicamentosSection({
                           updateMed(i, "cubierto", e.target.checked)
                         }
                       />
-                      Cubierto por EPS
+                      Disponible en formulación
                     </label>
                     <label>
                       Alternativa genérica

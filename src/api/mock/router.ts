@@ -1,5 +1,6 @@
 import {
   getCitaById,
+  getMedicamentosByMedico,
   getPacienteDetalle,
   MOCK_CITAS_CALENDARIO,
   MOCK_PACIENTES,
@@ -228,6 +229,15 @@ export async function mockRequest<T>(
       data = data.filter((m) => set.has(m.nombre.toLowerCase()));
     }
     return { data: data as T, error: null };
+  }
+
+  if (path.startsWith("/medicamentos")) {
+    const url = new URL(path, "http://local");
+    const medicoId = url.searchParams.get("medico_id");
+    const list = medicoId
+      ? getMedicamentosByMedico(Number(medicoId))
+      : getMedicamentosByMedico(1);
+    return { data: list as T, error: null };
   }
 
   if (path === "/consultas/procesar" && options.method === "POST") {

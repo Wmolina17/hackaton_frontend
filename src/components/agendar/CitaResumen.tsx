@@ -33,10 +33,6 @@ export function CitaResumen({ medico, slot, paciente }: CitaResumenProps) {
             {paciente.nombre} ({paciente.documento})
           </dd>
         </div>
-        <div>
-          <dt>EPS</dt>
-          <dd>{paciente.eps}</dd>
-        </div>
       </dl>
     </div>
   );

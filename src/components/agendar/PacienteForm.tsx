@@ -6,12 +6,14 @@ interface PacienteFormProps {
   value: Paciente;
   onChange: (paciente: Paciente) => void;
   errors?: Partial<Record<keyof Paciente, string>>;
+  hideEps?: boolean;
 }
 
 export function PacienteForm({
   value,
   onChange,
   errors = {},
+  hideEps = true,
 }: PacienteFormProps) {
   const data = value ?? emptyPaciente;
 
@@ -57,16 +59,18 @@ export function PacienteForm({
           <span className="paciente-form__error">{errors.telefono}</span>
         )}
       </label>
-      <label>
-        EPS
-        <select value={data.eps} onChange={(e) => update("eps", e.target.value)}>
-          <option value="Sura">Sura</option>
-          <option value="Sanitas">Sanitas</option>
-          <option value="Nueva EPS">Nueva EPS</option>
-          <option value="Salud Total">Salud Total</option>
-          <option value="Compensar">Compensar</option>
-        </select>
-      </label>
+      {!hideEps && (
+        <label>
+          EPS
+          <select value={data.eps} onChange={(e) => update("eps", e.target.value)}>
+            <option value="Sura">Sura</option>
+            <option value="Sanitas">Sanitas</option>
+            <option value="Nueva EPS">Nueva EPS</option>
+            <option value="Salud Total">Salud Total</option>
+            <option value="Compensar">Compensar</option>
+          </select>
+        </label>
+      )}
     </form>
   );
 }

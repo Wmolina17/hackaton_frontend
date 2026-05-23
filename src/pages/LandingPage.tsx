@@ -10,43 +10,53 @@ export function LandingPage() {
       <header className="landing__nav">
         <Link to="/" className="landing__logo">
           <span className="landing__logo-icon">MN</span>
-          medinote
-        </Link>
-        <nav className="landing__links">
-          <Link to="/consultas">Consultas</Link>
-          <Link to="/historial">Historial</Link>
-          <Link to="/agendar">Agendar</Link>
-        </nav>
-        <Link to="/consultas">
-          <Button>Entrar al panel</Button>
+          MediNote
         </Link>
       </header>
 
       <main className="landing__hero">
-        <p className="landing__eyebrow">Nueva era de consultas médicas</p>
+        <p className="landing__eyebrow">Consultas médicas inteligentes</p>
         <h1>
-          Voz, IA y historial clínico
+          Historial clínico
           <br />
-          en un solo flujo
+          asistido por voz e IA
         </h1>
         <p className="landing__subtitle">
-          MediNote AI transcribe la consulta, genera el historial estructurado y
-          ayuda al médico a revisar medicamentos según la EPS — sin fricción.
+          Transcripción en tiempo real, generación automática de historiales y
+          gestión de consultas en una plataforma diseñada para médicos y pacientes.
         </p>
+        <div className="landing__features">
+          <div className="landing__feature">
+            <span className="landing__feature-num">01</span>
+            <div>
+              <strong>Consulta por voz</strong>
+              <p>Graba la sesión y obtén un historial estructurado al instante.</p>
+            </div>
+          </div>
+          <div className="landing__feature">
+            <span className="landing__feature-num">02</span>
+            <div>
+              <strong>Agenda integrada</strong>
+              <p>Los pacientes reservan citas; los médicos las ven en su calendario.</p>
+            </div>
+          </div>
+          <div className="landing__feature">
+            <span className="landing__feature-num">03</span>
+            <div>
+              <strong>Formulación clara</strong>
+              <p>Accede al catálogo de medicamentos disponibles para tu práctica.</p>
+            </div>
+          </div>
+        </div>
         <div className="landing__cta">
-          <Link to="/consultas">
-            <Button>Comenzar consulta</Button>
-          </Link>
-          <Link to="/agendar">
-            <button type="button" className="landing__cta-secondary">
-              Agendar cita
-            </button>
+          <Link to="/acceso">
+            <Button>Iniciar sesión</Button>
           </Link>
         </div>
       </main>
 
       <footer className="landing__footer">
-        <span>MediNote AI · Hackathon MVP</span>
+        <span>MediNote · Plataforma clínica</span>
       </footer>
     </div>
   );

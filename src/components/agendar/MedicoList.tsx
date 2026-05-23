@@ -38,7 +38,7 @@ export function MedicoList({
             <div>
               <strong>{m.nombre}</strong>
               <span>{m.especialidad}</span>
-              {m.eps && <span className="medico-list__eps">EPS: {m.eps}</span>}
+              {m.eps && <span className="medico-list__eps">{m.eps}</span>}
             </div>
           </button>
         </li>

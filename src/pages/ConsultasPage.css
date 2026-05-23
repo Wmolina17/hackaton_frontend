@@ -1,32 +1,115 @@
-.consultas-page__tabs {
+.consultas-page__hero {
   display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
   flex-wrap: wrap;
-  gap: 0.5rem;
 }
 
-.consultas-page__tab {
-  padding: 0.5rem 1rem;
-  border-radius: var(--mn-radius-pill);
-  border: 1px solid var(--mn-border);
-  background: var(--mn-surface);
+.consultas-page__hero h2 {
+  margin: 0;
+  font-size: clamp(1.35rem, 3vw, 1.75rem);
+  font-weight: 700;
+  letter-spacing: -0.03em;
+}
+
+.consultas-page__subtitle {
+  margin: 0.25rem 0 0;
   color: var(--mn-text-muted);
-  font-size: 0.85rem;
-  font-weight: 500;
+  font-size: 0.9rem;
 }
 
-.consultas-page__tab--active {
-  border-color: var(--mn-border-strong);
-  background: rgba(168, 85, 247, 0.15);
+.consultas-page__eps-tag {
+  font-size: 0.75rem;
+  font-weight: 500;
+  padding: 0.35rem 0.75rem;
+  border-radius: var(--mn-radius-pill);
+  background: var(--mn-bg);
+  border: 1px solid var(--mn-border);
+  color: var(--mn-text-muted);
+}
+
+.consultas-page__stats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0.75rem;
+}
+
+@media (max-width: 640px) {
+  .consultas-page__stats {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.consultas-page__stat {
+  padding: 0.85rem 1rem;
+  border-radius: var(--mn-radius-sm);
+  background: var(--mn-surface);
+  border: 1px solid var(--mn-border);
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+}
+
+.consultas-page__stat-value {
+  font-size: 1.35rem;
+  font-weight: 700;
   color: var(--mn-text);
 }
 
-.consultas-page__medico-meta {
-  font-size: 0.85rem;
+.consultas-page__stat-label {
+  font-size: 0.75rem;
   color: var(--mn-text-muted);
 }
 
-.consultas-page__loading {
+.consultas-page__stat--active .consultas-page__stat-value {
+  color: var(--mn-success);
+}
+
+.consultas-page__stat--pending .consultas-page__stat-value {
+  color: var(--mn-primary);
+}
+
+.consultas-page__stat--done .consultas-page__stat-value {
   color: var(--mn-text-muted);
-  text-align: center;
+}
+
+.consultas-page__week-nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.consultas-page__week-nav button {
+  padding: 0.45rem 0.85rem;
+  border-radius: var(--mn-radius-sm);
+  border: 1px solid var(--mn-border);
+  background: var(--mn-surface);
+  color: var(--mn-text);
+  font-size: 0.82rem;
+  font-weight: 500;
+}
+
+.consultas-page__week-nav button:hover {
+  border-color: var(--mn-primary);
+  color: var(--mn-primary);
+}
+
+.consultas-page__week-nav span {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--mn-text);
+}
+
+.consultas-page__calendar {
+  padding: 0 !important;
+  overflow: hidden;
+}
+
+.consultas-page__loading {
   padding: 2rem;
+  text-align: center;
+  color: var(--mn-text-muted);
 }

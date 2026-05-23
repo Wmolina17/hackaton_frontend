@@ -27,8 +27,8 @@ export function PacientesListPage() {
   return (
     <div className="mn-page pacientes-page">
       <header className="mn-page__hero">
-        <h2>Historial clínico</h2>
-        <p>Lista de pacientes. Selecciona uno para ver todas sus consultas previas.</p>
+        <h2>Pacientes</h2>
+        <p>Consulta el historial clínico de tus pacientes atendidos.</p>
       </header>
 
       <input
@@ -49,9 +49,7 @@ export function PacientesListPage() {
                 <span className="pacientes-page__avatar">{p.nombre.charAt(0)}</span>
                 <div className="pacientes-page__info">
                   <strong>{p.nombre}</strong>
-                  <span>
-                    CC {p.documento} · {p.eps}
-                  </span>
+                  <span>CC {p.documento}</span>
                   <span className="pacientes-page__meta">
                     {p.total_consultas} consultas · Última:{" "}
                     {new Date(p.ultima_consulta).toLocaleDateString("es-CO")}

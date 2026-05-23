@@ -104,13 +104,7 @@ export function HistorialEditorPage() {
   async function handleRefreshCobertura() {
     const meds = await refreshCobertura(historial.medicamentos ?? [], eps);
     setHistorial((prev) => ({ ...prev, medicamentos: meds, paciente_eps: eps }));
-    setToast({ message: `Cobertura actualizada para ${eps}`, type: "success" });
-  }
-
-  async function handleEpsChange(newEps: string) {
-    setEps(newEps);
-    const meds = await refreshCobertura(historial.medicamentos ?? [], newEps);
-    setHistorial((prev) => ({ ...prev, medicamentos: meds, paciente_eps: newEps }));
+    setToast({ message: "Disponibilidad actualizada", type: "success" });
   }
 
   async function firmarYDescargar() {
@@ -176,21 +170,6 @@ export function HistorialEditorPage() {
       <Link to="/historial" className="historial-page__back">
         ← Volver a pacientes
       </Link>
-
-      {!readonly && (
-        <div className="historial-page__eps">
-          <label>
-            EPS para cobertura de medicamentos
-            <select value={eps} onChange={(e) => void handleEpsChange(e.target.value)}>
-              <option value="Sura">Sura</option>
-              <option value="Sanitas">Sanitas</option>
-              <option value="Nueva EPS">Nueva EPS</option>
-              <option value="Salud Total">Salud Total</option>
-              <option value="Compensar">Compensar</option>
-            </select>
-          </label>
-        </div>
-      )}
 
       <div className="mn-panel">
         <HistorialEditor

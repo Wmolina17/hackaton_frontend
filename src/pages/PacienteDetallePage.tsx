@@ -5,8 +5,17 @@ import { Button } from "@/components/ui/Button";
 import type { PacienteDetalle } from "@/types/pacientes";
 import "./PacienteDetallePage.css";
 
-export function PacienteDetallePage() {
-  const { pacienteId } = useParams();
+interface PacienteDetallePageProps {
+  pacienteIdOverride?: string;
+  isOwnHistory?: boolean;
+}
+
+export function PacienteDetallePage({
+  pacienteIdOverride,
+  isOwnHistory = false,
+}: PacienteDetallePageProps = {}) {
+  const { pacienteId: routeId } = useParams();
+  const pacienteId = pacienteIdOverride ?? routeId;
   const [paciente, setPaciente] = useState<PacienteDetalle | null>(null);
   const [loading, setLoading] = useState(true);
 
@@ -21,7 +30,7 @@ export function PacienteDetallePage() {
   }, [pacienteId]);
 
   if (loading) {
-    return <p className="paciente-detalle__loading">Cargando historial del paciente…</p>;
+    return <p className="paciente-detalle__loading">Cargando historial…</p>;
   }
 
   if (!paciente) {
@@ -30,16 +39,18 @@ export function PacienteDetallePage() {
 
   return (
     <div className="mn-page paciente-detalle">
-      <Link to="/historial" className="paciente-detalle__back">
-        ← Todos los pacientes
-      </Link>
+      {!isOwnHistory && (
+        <Link to="/historial" className="paciente-detalle__back">
+          ← Todos los pacientes
+        </Link>
+      )}
 
       <header className="paciente-detalle__header mn-panel">
         <span className="paciente-detalle__avatar">{paciente.nombre.charAt(0)}</span>
         <div>
-          <h2>{paciente.nombre}</h2>
+          <h2>{isOwnHistory ? "Mi historial clínico" : paciente.nombre}</h2>
           <p>
-            CC {paciente.documento} · {paciente.eps}
+            CC {paciente.documento}
             {paciente.telefono ? ` · ${paciente.telefono}` : ""}
           </p>
           <p className="paciente-detalle__stats">
@@ -63,9 +74,11 @@ export function PacienteDetallePage() {
                 <p className="paciente-detalle__diag">{c.diagnostico}</p>
                 <p className="paciente-detalle__medico">{c.medico_nombre}</p>
               </div>
-              <Link to={`/historial/editar/${c.historial_id}`}>
-                <Button variant="secondary">Ver historial IA</Button>
-              </Link>
+              {!isOwnHistory && (
+                <Link to={`/historial/editar/${c.historial_id}`}>
+                  <Button variant="secondary">Ver detalle</Button>
+                </Link>
+              )}
             </li>
           ))}
         </ul>

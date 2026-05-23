@@ -11,5 +11,6 @@ export interface CitaCalendario {
   especialidad: string;
   fecha_hora: string;
   estado: CitaEstado;
+  motivo?: string;
   historial_id?: number;
 }

@@ -9,6 +9,7 @@ import { PacienteForm } from "@/components/agendar/PacienteForm";
 import { SlotPicker } from "@/components/agendar/SlotPicker";
 import { Button } from "@/components/ui/Button";
 import { Toast } from "@/components/ui/Toast";
+import { useAuth } from "@/context/AuthContext";
 import { useSlots } from "@/hooks/useSlots";
 import type { Medico, Paciente, Slot } from "@/types/agendar";
 import {
@@ -29,6 +30,7 @@ const STEPS = ["Médico", "Horario", "Paciente", "Confirmar"];
 
 export function AgendarPage() {
   const navigate = useNavigate();
+  const { user } = useAuth();
   const [searchParams] = useSearchParams();
   const deepLink = useMemo(() => {
     const pending = readPendingBooking();
@@ -72,6 +74,17 @@ export function AgendarPage() {
       setMedicos(data ?? []);
     })();
   }, []);
+
+  useEffect(() => {
+    if (!user || user.role !== "cliente") return;
+    setPaciente((p) => ({
+      ...p,
+      nombre: user.pacienteNombre,
+      documento: "1023456789",
+      telefono: "3001234567",
+      eps: "Sura",
+    }));
+  }, [user]);
 
   useEffect(() => {
     if (loadingMedicos || !medicos.length || medicoDeepLinkDone.current) return;
@@ -146,7 +159,7 @@ export function AgendarPage() {
       type: "success",
     });
     setTimeout(() => {
-      navigate("/consultas");
+      navigate("/mi-historial");
     }, 1200);
   }
 
@@ -172,8 +185,8 @@ export function AgendarPage() {
   return (
     <div className="mn-page agendar-page">
       <header className="mn-page__hero">
-        <h2>Agendar cita médica</h2>
-        <p>Selecciona médico, horario y datos del paciente (FE2).</p>
+        <h2>Agendar cita</h2>
+        <p>Elige médico, horario y confirma tu cita médica.</p>
       </header>
 
       {fe1Hint && <div className="mn-banner" role="status">{fe1Hint}</div>}

@@ -1,0 +1,131 @@
+.medicamentos-page__toolbar {
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+}
+
+.medicamentos-page__search {
+  width: 100%;
+  padding: 0.65rem 1rem;
+  border-radius: var(--mn-radius-sm);
+  border: 1px solid var(--mn-border);
+  background: #fff;
+  background: var(--mn-surface);
+  color: var(--mn-text);
+}
+
+.medicamentos-page__search:focus {
+  outline: none;
+  border-color: var(--mn-primary);
+  box-shadow: 0 0 0 3px var(--mn-primary-glow);
+}
+
+.medicamentos-page__filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+
+.medicamentos-page__filter {
+  padding: 0.35rem 0.75rem;
+  border-radius: var(--mn-radius-pill);
+  border: 1px solid var(--mn-border);
+  background: var(--mn-surface);
+  color: var(--mn-text-muted);
+  font-size: 0.8rem;
+  font-weight: 500;
+}
+
+.medicamentos-page__filter--active {
+  background: var(--mn-primary);
+  border-color: var(--mn-primary);
+  color: #fff;
+}
+
+.medicamentos-page__count {
+  margin: 0;
+  font-size: 0.85rem;
+  color: var(--mn-text-muted);
+}
+
+.medicamentos-page__loading {
+  color: var(--mn-text-muted);
+  text-align: center;
+  padding: 2rem;
+}
+
+.medicamentos-page__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1rem;
+}
+
+.medicamentos-page__card {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: 1.15rem !important;
+}
+
+.medicamentos-page__card-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+
+.medicamentos-page__card-head h3 {
+  margin: 0;
+  font-size: 0.95rem;
+  font-weight: 600;
+  line-height: 1.35;
+}
+
+.medicamentos-page__badge {
+  font-size: 0.65rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  padding: 0.2rem 0.5rem;
+  border-radius: var(--mn-radius-pill);
+  background: var(--mn-error-soft);
+  color: var(--mn-error);
+  white-space: nowrap;
+}
+
+.medicamentos-page__badge--ok {
+  background: var(--mn-success-soft);
+  color: var(--mn-success);
+}
+
+.medicamentos-page__commercial {
+  margin: 0;
+  font-size: 0.82rem;
+  color: var(--mn-primary);
+  font-weight: 500;
+}
+
+.medicamentos-page__desc {
+  margin: 0;
+  font-size: 0.85rem;
+  color: var(--mn-text-muted);
+  line-height: 1.5;
+}
+
+.medicamentos-page__meta {
+  margin: 0.35rem 0 0;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 0.25rem 0.75rem;
+  font-size: 0.78rem;
+}
+
+.medicamentos-page__meta dt {
+  color: var(--mn-text-muted);
+  font-weight: 500;
+}
+
+.medicamentos-page__meta dd {
+  margin: 0;
+  color: var(--mn-text);
+}

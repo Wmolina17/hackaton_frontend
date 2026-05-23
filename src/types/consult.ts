@@ -1,6 +1,6 @@
 export type ConsultStatus = "idle" | "listening" | "processing" | "error";
 
-export type CitaEstado = "pendiente" | "activa" | "terminada";
+export type CitaEstado = "pendiente" | "activa" | "terminada" | "programada";
 
 export interface CitaActiva {
   id: string;

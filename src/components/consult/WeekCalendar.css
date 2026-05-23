@@ -1,0 +1,149 @@
+.week-cal {
+  overflow-x: auto;
+  border: 1px solid var(--mn-border);
+  border-radius: var(--mn-radius);
+  background: var(--mn-bg);
+}
+
+.week-cal__empty {
+  color: var(--mn-text-muted);
+  text-align: center;
+  padding: 2.5rem;
+}
+
+.week-cal__header {
+  display: grid;
+  grid-template-columns: 56px repeat(7, minmax(100px, 1fr));
+  border-bottom: 1px solid var(--mn-border);
+  background: var(--mn-surface);
+  position: sticky;
+  top: 0;
+  z-index: 2;
+}
+
+.week-cal__corner {
+  border-right: 1px solid var(--mn-border);
+}
+
+.week-cal__day-head {
+  padding: 0.65rem 0.5rem;
+  text-align: center;
+  border-right: 1px solid var(--mn-border);
+}
+
+.week-cal__day-head:last-child {
+  border-right: none;
+}
+
+.week-cal__day-head--today {
+  background: var(--mn-accent-soft);
+}
+
+.week-cal__weekday {
+  display: block;
+  font-size: 0.7rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--mn-text-muted);
+}
+
+.week-cal__date {
+  display: block;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--mn-text);
+  margin-top: 0.15rem;
+}
+
+.week-cal__body {
+  min-width: 700px;
+}
+
+.week-cal__row {
+  display: grid;
+  grid-template-columns: 56px repeat(7, minmax(100px, 1fr));
+  min-height: 52px;
+  border-bottom: 1px solid var(--mn-border);
+}
+
+.week-cal__row:last-child {
+  border-bottom: none;
+}
+
+.week-cal__time {
+  padding: 0.35rem 0.5rem;
+  font-size: 0.7rem;
+  font-weight: 500;
+  color: var(--mn-text-muted);
+  border-right: 1px solid var(--mn-border);
+  background: var(--mn-surface);
+}
+
+.week-cal__cell {
+  padding: 0.2rem;
+  border-right: 1px solid var(--mn-border);
+  min-height: 52px;
+}
+
+.week-cal__cell:last-child {
+  border-right: none;
+}
+
+.week-cal__event {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.1rem;
+  width: 100%;
+  padding: 0.35rem 0.45rem;
+  margin-bottom: 0.2rem;
+  border-radius: 6px;
+  border: none;
+  text-align: left;
+  font-size: 0.72rem;
+  cursor: pointer;
+  transition: transform 0.12s, box-shadow 0.12s;
+}
+
+.week-cal__event:hover {
+  transform: scale(1.02);
+  box-shadow: 0 2px 8px rgba(99, 102, 241, 0.15);
+}
+
+.week-cal__event--activa {
+  background: var(--mn-success-soft);
+  border-left: 3px solid var(--mn-success);
+  color: var(--mn-text);
+}
+
+.week-cal__event--pendiente,
+.week-cal__event--programada {
+  background: #eef2ff;
+  border-left: 3px solid var(--mn-primary);
+  color: var(--mn-text);
+}
+
+.week-cal__event--terminada {
+  background: #f1f5f9;
+  border-left: 3px solid #94a3b8;
+  color: var(--mn-text-muted);
+}
+
+.week-cal__event-time {
+  font-weight: 700;
+  font-size: 0.68rem;
+}
+
+.week-cal__event-patient {
+  font-weight: 600;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
+}
+
+.week-cal__event-status {
+  font-size: 0.62rem;
+  opacity: 0.75;
+}

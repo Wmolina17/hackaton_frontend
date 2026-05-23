@@ -1,3 +1,5 @@
+import type { CitaEstado } from "@/types/consult";
+
 export interface PacienteResumen {
   id: string;
   nombre: string;
@@ -14,7 +16,7 @@ export interface ConsultaResumen {
   fecha: string;
   diagnostico: string;
   medico_nombre: string;
-  estado: "pendiente" | "activa" | "terminada";
+  estado: CitaEstado;
 }
 
 export interface PacienteDetalle extends PacienteResumen {

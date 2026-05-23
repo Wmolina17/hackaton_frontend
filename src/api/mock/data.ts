@@ -1,5 +1,12 @@
 import type { CitaCalendario } from "@/types/citas-calendario";
+import type { Medicamento } from "@/types/medicamentos";
 import type { PacienteDetalle, PacienteResumen } from "@/types/pacientes";
+
+export const MOCK_EPS = [
+  { id: 1, nombre: "Sura" },
+  { id: 2, nombre: "Sanitas" },
+  { id: 3, nombre: "Nueva EPS" },
+];
 
 export const MOCK_PACIENTES: PacienteResumen[] = [
   {
@@ -40,9 +47,17 @@ export const MOCK_PACIENTES: PacienteResumen[] = [
   },
 ];
 
+const MOTIVOS = [
+  "Control general",
+  "Cefalea recurrente",
+  "Dolor abdominal",
+  "Seguimiento hipertensión",
+  "Cuadro respiratorio",
+  "Control pediátrico",
+];
+
 function buildCitas(): CitaCalendario[] {
-  const base = new Date();
-  base.setHours(0, 0, 0, 0);
+  const base = startOfWeek(new Date());
   const medicos = [
     { id: 1, nombre: "Dra. Ana Ruiz", esp: "Medicina general" },
     { id: 2, nombre: "Dr. Carlos Mejía", esp: "Medicina interna" },
@@ -52,34 +67,160 @@ function buildCitas(): CitaCalendario[] {
   const citas: CitaCalendario[] = [];
   let idx = 0;
 
-  for (let day = 0; day < 7; day++) {
-    for (const med of medicos) {
-      for (let h = 0; h < 2; h++) {
-        const d = new Date(base);
-        d.setDate(d.getDate() + day);
-        d.setHours(8 + h * 3, 0, 0, 0);
-        const pac = pacientes[idx % pacientes.length];
-        idx++;
-        citas.push({
-          id: `cita-${med.id}-${day}-${h}`,
-          paciente_id: pac.id,
-          paciente_nombre: pac.nombre,
-          paciente_documento: pac.documento,
-          paciente_eps: pac.eps,
-          medico_id: med.id,
-          medico_nombre: med.nombre,
-          especialidad: med.esp,
-          fecha_hora: d.toISOString(),
-          estado: day === 0 && h === 0 ? "activa" : day < 2 ? "pendiente" : "terminada",
-          historial_id: idx,
-        });
-      }
+  const slots = [
+    { day: 0, hour: 8 },
+    { day: 0, hour: 10 },
+    { day: 0, hour: 14 },
+    { day: 1, hour: 9 },
+    { day: 1, hour: 11 },
+    { day: 1, hour: 15 },
+    { day: 2, hour: 8 },
+    { day: 2, hour: 10 },
+    { day: 3, hour: 9 },
+    { day: 3, hour: 14 },
+    { day: 4, hour: 8 },
+    { day: 4, hour: 11 },
+    { day: 4, hour: 16 },
+    { day: 5, hour: 9 },
+    { day: 6, hour: 10 },
+  ];
+
+  for (const med of medicos) {
+    for (const slot of slots) {
+      const d = new Date(base);
+      d.setDate(d.getDate() + slot.day);
+      d.setHours(slot.hour, 0, 0, 0);
+      const pac = pacientes[idx % pacientes.length];
+      const isToday = slot.day === 0;
+      idx++;
+      citas.push({
+        id: `cita-${med.id}-${slot.day}-${slot.hour}`,
+        paciente_id: pac.id,
+        paciente_nombre: pac.nombre,
+        paciente_documento: pac.documento,
+        paciente_eps: pac.eps,
+        medico_id: med.id,
+        medico_nombre: med.nombre,
+        especialidad: med.esp,
+        fecha_hora: d.toISOString(),
+        motivo: MOTIVOS[idx % MOTIVOS.length],
+        estado: isToday && slot.hour === 8 ? "activa" : slot.day < 2 ? "programada" : "terminada",
+        historial_id: idx,
+      });
     }
   }
   return citas;
 }
 
+function startOfWeek(date: Date): Date {
+  const d = new Date(date);
+  const day = d.getDay();
+  const diff = day === 0 ? -6 : 1 - day;
+  d.setDate(d.getDate() + diff);
+  d.setHours(0, 0, 0, 0);
+  return d;
+}
+
 export const MOCK_CITAS_CALENDARIO = buildCitas();
+
+export const MOCK_MEDICAMENTOS: Medicamento[] = [
+  {
+    id: 1,
+    nombre: "Acetaminofén 500 mg",
+    descripcion: "Analgésico y antipirético de uso común.",
+    nombre_generico: "Paracetamol",
+    nombre_comercial: "Dolex",
+    categoria: "Analgésicos",
+    diagnosticos_aplica: ["Cefalea", "Dolor leve", "Fiebre"],
+    disponible: true,
+    eps_id: 1,
+    eps_nombre: "Sura",
+  },
+  {
+    id: 2,
+    nombre: "Ibuprofeno 400 mg",
+    descripcion: "Antiinflamatorio no esteroideo.",
+    nombre_generico: "Ibuprofeno",
+    nombre_comercial: "Advil",
+    categoria: "Antiinflamatorios",
+    diagnosticos_aplica: ["Dolor muscular", "Inflamación articular"],
+    disponible: true,
+    eps_id: 1,
+    eps_nombre: "Sura",
+  },
+  {
+    id: 3,
+    nombre: "Amoxicilina 500 mg",
+    descripcion: "Antibiótico de amplio espectro.",
+    nombre_generico: "Amoxicilina",
+    nombre_comercial: "Amoxil",
+    categoria: "Antibióticos",
+    diagnosticos_aplica: ["Infección respiratoria", "Faringitis"],
+    disponible: true,
+    eps_id: 1,
+    eps_nombre: "Sura",
+  },
+  {
+    id: 4,
+    nombre: "Losartán 50 mg",
+    descripcion: "Antagonista del receptor de angiotensina II.",
+    nombre_generico: "Losartán",
+    nombre_comercial: "Cozaar",
+    categoria: "Antihipertensivos",
+    diagnosticos_aplica: ["Hipertensión arterial", "Protección renal"],
+    disponible: true,
+    eps_id: 1,
+    eps_nombre: "Sura",
+  },
+  {
+    id: 5,
+    nombre: "Metformina 850 mg",
+    descripcion: "Biguanida para control glucémico.",
+    nombre_generico: "Metformina",
+    nombre_comercial: "Glucophage",
+    categoria: "Antidiabéticos",
+    diagnosticos_aplica: ["Diabetes mellitus tipo 2"],
+    disponible: true,
+    eps_id: 1,
+    eps_nombre: "Sura",
+  },
+  {
+    id: 6,
+    nombre: "Omeprazol 20 mg",
+    descripcion: "Inhibidor de la bomba de protones.",
+    nombre_generico: "Omeprazol",
+    nombre_comercial: "Losec",
+    categoria: "Analgésicos",
+    diagnosticos_aplica: ["Gastritis", "Reflujo gastroesofágico"],
+    disponible: false,
+    eps_id: 1,
+    eps_nombre: "Sura",
+  },
+  {
+    id: 7,
+    nombre: "Diclofenaco 50 mg",
+    descripcion: "AINE para dolor e inflamación moderada.",
+    nombre_generico: "Diclofenaco",
+    nombre_comercial: "Voltaren",
+    categoria: "Antiinflamatorios",
+    diagnosticos_aplica: ["Artritis", "Dolor postoperatorio"],
+    disponible: true,
+    eps_id: 2,
+    eps_nombre: "Sanitas",
+  },
+  {
+    id: 8,
+    nombre: "Azitromicina 500 mg",
+    descripcion: "Macrólido para infecciones bacterianas.",
+    nombre_generico: "Azitromicina",
+    nombre_comercial: "Zithromax",
+    categoria: "Antibióticos",
+    diagnosticos_aplica: ["Neumonía", "Infección de vías respiratorias"],
+    disponible: true,
+    eps_id: 3,
+    eps_nombre: "Nueva EPS",
+  },
+];
 
 export function getPacienteDetalle(pacienteId: string): PacienteDetalle | null {
   const pac = MOCK_PACIENTES.find((p) => p.id === pacienteId);
@@ -93,8 +234,7 @@ export function getPacienteDetalle(pacienteId: string): PacienteDetalle | null {
       id: i + 1,
       historial_id: c.historial_id ?? i + 1,
       fecha: c.fecha_hora,
-      diagnostico:
-        i % 2 === 0 ? "Cefalea tensional" : "Cuadro viral respiratorio alto",
+      diagnostico: c.motivo ?? (i % 2 === 0 ? "Cefalea tensional" : "Cuadro viral respiratorio alto"),
       medico_nombre: c.medico_nombre,
       estado: c.estado,
     }));
@@ -115,4 +255,10 @@ export function getPacienteDetalle(pacienteId: string): PacienteDetalle | null {
 
 export function getCitaById(citaId: string): CitaCalendario | null {
   return MOCK_CITAS_CALENDARIO.find((c) => c.id === citaId) ?? null;
+}
+
+export function getMedicamentosByMedico(medicoId: number): Medicamento[] {
+  const epsByMedico: Record<number, number> = { 1: 1, 2: 2, 3: 3 };
+  const epsId = epsByMedico[medicoId] ?? 1;
+  return MOCK_MEDICAMENTOS.filter((m) => m.eps_id === epsId);
 }
