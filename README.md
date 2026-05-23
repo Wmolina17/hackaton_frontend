@@ -1,24 +1,40 @@
-# Frontend
+# Frontend — MediNote AI
 
-App web con **React + Vite + TypeScript**.
+App unificada **FE1 (consulta/voz) + FE2 (agendar/historial)** con **React + Vite + TypeScript**.
+
+## Rutas
+
+| Ruta | Módulo |
+|------|--------|
+| `/` | Agendar cita (FE2) |
+| `/consulta` | Iniciar consulta + cita activa (FE1) |
+| `/consulta/chat` | Grabación y procesamiento de audio (FE1) |
+| `/historial/:id` | Editar historial y descargar PDF (FE2) |
+
+## Mocks (sin backend)
+
+Con `VITE_USE_MOCK=true` (por defecto), **toda la data dummy vive en** `src/api/mock/router.ts`.  
+Los módulos en `src/api/*.ts` solo definen rutas y contratos.
 
 ## Estructura
 
 ```
 frontend/
 ├── src/
-│   ├── main.tsx              # Punto de entrada
-│   ├── App.tsx               # Router principal
-│   ├── api/                  # Cliente HTTP y endpoints
+│   ├── main.tsx
+│   ├── App.tsx
+│   ├── api/                  # Endpoints por dominio + http.ts + mock/
 │   ├── components/
-│   │   ├── layout/           # Header, Layout, Sidebar...
-│   │   └── ui/               # Botones, inputs, modals reutilizables
-│   ├── pages/                # Una carpeta/archivo por vista
-│   ├── hooks/                # Custom hooks
-│   ├── context/              # Estado global (Context API)
-│   ├── types/                # Tipos TypeScript compartidos
-│   ├── styles/               # CSS global
-│   └── utils/                # Helpers reutilizables
+│   │   ├── layout/
+│   │   ├── ui/               # Button, Toast, waveform…
+│   │   ├── agendar/          # FE2
+│   │   ├── historial/        # FE2
+│   │   └── consult/          # FE1
+│   ├── pages/
+│   ├── hooks/
+│   ├── types/
+│   ├── styles/               # theme.css + shared.css
+│   └── utils/
 ├── index.html
 ├── vite.config.ts
 └── package.json
@@ -45,15 +61,11 @@ import { api } from "@/api/client";
 import { HomePage } from "@/pages/HomePage";
 ```
 
-### Cómo agregar una nueva página (ej: `Users`)
+## Flujo demo (MediNote)
 
-1. Crear `src/pages/UsersPage.tsx` (+ CSS si hace falta)
-2. Crear `src/api/users.ts` con las llamadas al API
-3. Agregar tipos en `src/types/` si son nuevos
-4. Registrar ruta en `src/App.tsx`:
-   ```tsx
-   <Route path="/users" element={<UsersPage />} />
-   ```
+1. **Agendar** (`/`) → médico, horario, paciente → confirma cita → redirige a **Consulta**
+2. **Consulta** → Iniciar → grabar → Terminar → IA mock devuelve transcripción + historial
+3. **Historial** → editar campos, cobertura EPS, firmar y descargar PDF mock
 
 ## Setup
 
@@ -64,9 +76,7 @@ cp .env.example .env
 npm run dev
 ```
 
-App disponible en `http://localhost:5173`
-
-El proxy de Vite redirige `/api/*` al backend en `localhost:3001`.
+App en `http://localhost:5173` — solo mocks, no requiere backend.
 
 ## Scripts
 

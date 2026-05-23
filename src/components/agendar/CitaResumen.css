@@ -1,0 +1,24 @@
+.cita-resumen h3 {
+  margin: 0 0 1rem;
+  font-size: 1.1rem;
+}
+
+.cita-resumen dl {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin: 0;
+}
+
+.cita-resumen dt {
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--mn-muted);
+}
+
+.cita-resumen dd {
+  margin: 0.15rem 0 0;
+  color: var(--mn-text);
+}

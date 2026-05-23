@@ -1,0 +1,63 @@
+.medico-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+  margin: 0;
+  padding: 0;
+}
+
+.medico-list__hint {
+  color: var(--mn-muted);
+  font-size: 0.9rem;
+}
+
+.medico-list__card {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  padding: 0.85rem 1rem;
+  border: 1px solid var(--mn-border);
+  border-radius: 12px;
+  background: var(--mn-surface);
+  text-align: left;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.medico-list__card:hover {
+  border-color: rgba(99, 102, 241, 0.4);
+}
+
+.medico-list__card--selected {
+  border-color: var(--mn-primary);
+  box-shadow: 0 0 0 2px rgba(79, 70, 229, 0.15);
+}
+
+.medico-list__avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  background: var(--mn-primary-light);
+  color: var(--mn-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+}
+
+.medico-list__card strong {
+  display: block;
+  color: var(--mn-text);
+}
+
+.medico-list__card span {
+  display: block;
+  font-size: 0.85rem;
+  color: var(--mn-muted);
+}
+
+.medico-list__eps {
+  font-size: 0.75rem !important;
+  margin-top: 0.15rem;
+}

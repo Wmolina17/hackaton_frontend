@@ -1,0 +1,86 @@
+.consult-cal {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.consult-cal__empty {
+  color: var(--mn-text-muted);
+  text-align: center;
+  padding: 2rem;
+}
+
+.consult-cal__day-title {
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-transform: capitalize;
+  color: var(--mn-accent);
+  margin-bottom: 0.75rem;
+}
+
+.consult-cal__slots {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 0.65rem;
+}
+
+.consult-cal__cita {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.2rem;
+  padding: 0.85rem 1rem;
+  border-radius: 12px;
+  border: 1px solid var(--mn-border);
+  background: var(--mn-surface);
+  text-align: left;
+  transition: border-color 0.2s, transform 0.15s;
+}
+
+.consult-cal__cita:hover {
+  border-color: var(--mn-border-strong);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(124, 58, 237, 0.15);
+}
+
+.consult-cal__time {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--mn-accent);
+}
+
+.consult-cal__patient {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--mn-text);
+}
+
+.consult-cal__meta {
+  font-size: 0.75rem;
+  color: var(--mn-text-muted);
+}
+
+.consult-cal__status {
+  margin-top: 0.35rem;
+  font-size: 0.65rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: 0.15rem 0.45rem;
+  border-radius: 9999px;
+}
+
+.consult-cal__status--activa {
+  background: rgba(52, 211, 153, 0.15);
+  color: var(--mn-success);
+}
+
+.consult-cal__status--pendiente {
+  background: rgba(168, 85, 247, 0.15);
+  color: var(--mn-accent);
+}
+
+.consult-cal__status--terminada {
+  background: rgba(148, 163, 184, 0.15);
+  color: var(--mn-text-muted);
+}

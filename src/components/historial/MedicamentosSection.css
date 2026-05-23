@@ -1,0 +1,94 @@
+.meds-section {
+  padding: 1.25rem;
+  border-radius: var(--mn-radius);
+  border: 1px solid var(--mn-border);
+  background: rgba(248, 250, 252, 0.6);
+}
+
+.meds-section__head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+}
+
+.meds-section__head h3 {
+  margin: 0;
+  font-size: 1rem;
+}
+
+.meds-section__list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.meds-section__card {
+  padding: 1rem;
+  border-radius: 10px;
+  background: var(--mn-surface);
+  border: 1px solid var(--mn-border);
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.meds-section__card-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.meds-section__tag {
+  font-size: 0.7rem;
+  font-weight: 700;
+  padding: 0.2rem 0.5rem;
+  border-radius: 9999px;
+  background: #fef2f2;
+  color: #b91c1c;
+}
+
+.meds-section__tag--ok {
+  background: #ecfdf5;
+  color: #047857;
+}
+
+.meds-section__card label {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+.meds-section__card input[type="text"] {
+  padding: 0.45rem 0.65rem;
+  border: 1px solid var(--mn-border);
+  border-radius: 6px;
+  font: inherit;
+}
+
+.meds-section__check {
+  flex-direction: row !important;
+  align-items: center;
+}
+
+.meds-section__empty {
+  color: var(--mn-muted);
+  font-size: 0.9rem;
+}
+
+.meds-section__add {
+  margin-top: 0.75rem;
+  padding: 0.35rem 0.75rem;
+  border: 1px dashed var(--mn-border);
+  border-radius: 8px;
+  background: transparent;
+  color: var(--mn-primary);
+}

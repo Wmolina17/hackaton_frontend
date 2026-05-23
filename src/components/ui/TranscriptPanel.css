@@ -1,0 +1,21 @@
+.transcript-panel {
+  padding: 1rem 1.25rem;
+  border-radius: 12px;
+  background: rgba(99, 102, 241, 0.08);
+  border: 1px solid rgba(99, 102, 241, 0.2);
+}
+
+.transcript-panel__label {
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #6366f1;
+  margin-bottom: 0.5rem;
+}
+
+.transcript-panel__text {
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: #1e293b;
+}

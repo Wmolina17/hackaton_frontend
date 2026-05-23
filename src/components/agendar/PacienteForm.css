@@ -1,0 +1,27 @@
+.paciente-form {
+  display: grid;
+  gap: 1rem;
+}
+
+.paciente-form label {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--mn-text);
+}
+
+.paciente-form input,
+.paciente-form select {
+  padding: 0.55rem 0.75rem;
+  border: 1px solid var(--mn-border);
+  border-radius: 8px;
+  font: inherit;
+}
+
+.paciente-form__error {
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: var(--mn-error);
+}

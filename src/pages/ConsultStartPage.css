@@ -1,0 +1,40 @@
+.consult-start {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 60vh;
+  padding: 1rem 0;
+}
+
+.consult-start__content {
+  width: 100%;
+  max-width: 560px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
+  text-align: center;
+}
+
+.consult-start__wave {
+  width: 100%;
+  padding: 0.5rem 0;
+}
+
+.consult-start__hint {
+  font-size: 0.8rem;
+  color: var(--mn-text-muted);
+  max-width: 380px;
+}
+
+.consult-start__loading {
+  color: var(--mn-text-muted);
+}
+
+.consult-start__error {
+  padding: 0.75rem 1rem;
+  border-radius: 10px;
+  color: var(--mn-error);
+  background: rgba(248, 113, 113, 0.1);
+  border: 1px solid rgba(248, 113, 113, 0.3);
+}

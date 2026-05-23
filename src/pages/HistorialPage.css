@@ -1,0 +1,58 @@
+.historial-page {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.historial-page__hero {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 1rem;
+}
+
+.historial-page__badge {
+  padding: 0.35rem 0.75rem;
+  border-radius: 9999px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  background: #ecfdf5;
+  color: #047857;
+}
+
+.historial-page__eps {
+  margin-bottom: 0.5rem;
+}
+
+.historial-page__eps label {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.historial-page__eps select {
+  max-width: 240px;
+  padding: 0.5rem;
+  border: 1px solid var(--mn-border);
+  border-radius: 8px;
+  font: inherit;
+}
+
+.historial-page__loading {
+  text-align: center;
+  color: var(--mn-muted);
+  padding: 3rem;
+}
+
+.historial-page__back {
+  color: var(--mn-accent);
+  text-decoration: none;
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+.historial-page__back:hover {
+  text-decoration: underline;
+}

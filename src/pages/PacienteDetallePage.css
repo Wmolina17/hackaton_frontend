@@ -1,0 +1,98 @@
+.paciente-detalle__back {
+  color: var(--mn-accent);
+  text-decoration: none;
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+.paciente-detalle__back:hover {
+  text-decoration: underline;
+}
+
+.paciente-detalle__loading {
+  color: var(--mn-text-muted);
+  padding: 2rem;
+  text-align: center;
+}
+
+.paciente-detalle__header {
+  display: flex;
+  gap: 1.25rem;
+  align-items: center;
+}
+
+.paciente-detalle__avatar {
+  width: 56px;
+  height: 56px;
+  border-radius: 14px;
+  background: linear-gradient(135deg, var(--mn-primary), var(--mn-primary-dark));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #fff;
+  flex-shrink: 0;
+}
+
+.paciente-detalle__header h2 {
+  margin: 0 0 0.25rem;
+  font-size: 1.35rem;
+}
+
+.paciente-detalle__header p {
+  margin: 0;
+  color: var(--mn-text-muted);
+  font-size: 0.9rem;
+}
+
+.paciente-detalle__stats {
+  margin-top: 0.35rem !important;
+  font-size: 0.8rem !important;
+  color: var(--mn-accent) !important;
+}
+
+.paciente-detalle__section-title {
+  font-size: 1rem;
+  margin-bottom: 1rem;
+  color: var(--mn-text);
+}
+
+.paciente-detalle__consultas {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.paciente-detalle__consulta-card {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.paciente-detalle__consulta-card time {
+  font-size: 0.8rem;
+  color: var(--mn-accent);
+  font-weight: 600;
+}
+
+.paciente-detalle__diag {
+  margin: 0.35rem 0 0;
+  font-weight: 600;
+  color: var(--mn-text);
+}
+
+.paciente-detalle__medico {
+  margin: 0.15rem 0 0;
+  font-size: 0.85rem;
+  color: var(--mn-text-muted);
+}
+
+.paciente-detalle__consulta-card a {
+  text-decoration: none;
+}
