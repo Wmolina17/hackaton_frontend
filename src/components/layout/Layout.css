@@ -42,19 +42,6 @@
   color: var(--mn-text-muted);
 }
 
-.layout__logo {
-  width: 38px;
-  height: 38px;
-  border-radius: 10px;
-  background: linear-gradient(135deg, var(--mn-primary), var(--mn-accent));
-  color: #fff;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: 800;
-  font-size: 0.75rem;
-}
-
 .layout__nav {
   display: flex;
   gap: 0.25rem;

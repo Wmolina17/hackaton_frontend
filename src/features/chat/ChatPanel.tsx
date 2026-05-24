@@ -2,7 +2,7 @@
 
 import { AnimatePresence, motion } from 'framer-motion'
 
-import { Activity } from 'lucide-react'
+import { AppLogo } from '@/components/brand/AppLogo'
 
 import { useAuth } from '@/context/AuthContext'
 
@@ -129,22 +129,16 @@ export function ChatPanel() {
           >
 
             <motion.div
-
               animate={{ scale: [1, 1.04, 1] }}
-
               transition={{ duration: 3, repeat: Infinity, ease: 'easeInOut' }}
-
-              className="medinote-chat-welcome__orb w-16 h-16 rounded-full flex items-center justify-center"
-
+              className="medinote-chat-welcome__orb"
             >
-
-              <Activity className="w-8 h-8" style={{ color: 'var(--mn-primary)' }} />
-
+              <AppLogo size="xl" />
             </motion.div>
 
 
 
-            <h2 className="medinote-chat-welcome__title text-2xl font-semibold">MediNote AI</h2>
+            <h2 className="medinote-chat-welcome__title text-2xl font-semibold">Monwe AI</h2>
 
             <p className="medinote-chat-welcome__copy text-sm">
 
@@ -212,7 +206,7 @@ export function ChatPanel() {
 
         <p className="text-center text-xs mt-2.5" style={{ color: '#94a3b8', marginTop: '20px' }}>
 
-          MediNote puede cometer errores. Verifica información médica importante.
+          Monwe puede cometer errores. Verifica información médica importante.
 
         </p>
 

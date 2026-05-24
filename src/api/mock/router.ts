@@ -149,7 +149,7 @@ export async function mockRequest<T>(
           `\n${i + 1}. ${new Date(c.fecha).toLocaleString("es-CO")}\n   Médico: ${c.medico_nombre}\n   Diagnóstico: ${c.diagnostico}\n   Estado: ${c.estado}`
       ),
       ``,
-      `Generado por MediNote · ${new Date().toLocaleString("es-CO")}`,
+      `Generado por Monwe · ${new Date().toLocaleString("es-CO")}`,
     ];
     return {
       data: new Blob([lines.join("\n")], { type: "application/pdf" }) as T,
@@ -322,7 +322,7 @@ export async function mockRequest<T>(
 
   const pdfMatch = path.match(/^\/historiales\/(\d+)\/pdf$/);
   if (pdfMatch) {
-    const text = `Historial clínico #${pdfMatch[1]} — MediNote AI (mock PDF)`;
+    const text = `Historial clínico #${pdfMatch[1]} — Monwe AI (mock PDF)`;
     return {
       data: new Blob([text], { type: "application/pdf" }) as T,
       error: null,

@@ -1,0 +1,40 @@
+.app-logo {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.65rem;
+  flex-shrink: 0;
+}
+
+.app-logo__image {
+  display: block;
+  width: var(--app-logo-size, 40px);
+  height: var(--app-logo-size, 40px);
+  object-fit: contain;
+}
+
+.app-logo__text {
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: inherit;
+  line-height: 1.1;
+}
+
+.app-logo--sm {
+  --app-logo-size: 44px;
+}
+
+.app-logo--md {
+  --app-logo-size: 54px;
+}
+
+.app-logo--lg {
+  --app-logo-size: 68px;
+}
+
+.app-logo--xl {
+  --app-logo-size: 88px;
+}
+
+.app-logo--hero {
+  --app-logo-size: 132px;
+}

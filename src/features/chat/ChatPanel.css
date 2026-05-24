@@ -59,7 +59,13 @@
 
 .medinote-chat-welcome__orb {
   position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 7rem;
+  height: 7rem;
   margin-bottom: 1.75rem;
+  border-radius: 999px;
   background:
     radial-gradient(circle at 35% 25%, rgba(255, 255, 255, 0.92), transparent 34%),
     linear-gradient(145deg, rgba(99, 102, 241, 0.14), rgba(5, 150, 105, 0.12));

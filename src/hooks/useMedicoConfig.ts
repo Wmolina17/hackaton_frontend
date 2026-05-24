@@ -13,7 +13,7 @@ function createDefaultConfig(
     nombre,
     especialidad,
     registroMedico: "RM-123456",
-    clinica: "Clínica MediNote",
+    clinica: "Clínica Monwe",
     logoDataUrl: null,
     firmaDataUrl: null,
   };

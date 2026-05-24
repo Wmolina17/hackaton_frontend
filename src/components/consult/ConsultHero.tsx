@@ -6,7 +6,7 @@ interface ConsultHeroProps {
 }
 
 export function ConsultHero({
-  title = "MediNote · Consulta",
+  title = "Monwe · Consulta",
   subtitle = "Inicia la grabación, conduce la consulta con el paciente y al terminar el audio se procesará con IA.",
 }: ConsultHeroProps) {
   return (

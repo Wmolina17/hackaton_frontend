@@ -1,4 +1,5 @@
 import { NavLink, Link, useNavigate } from "react-router-dom";
+import { AppLogo } from "@/components/brand/AppLogo";
 import { useAuth } from "@/context/AuthContext";
 import { Button } from "@/components/ui/Button";
 import "./Layout.css";
@@ -35,9 +36,9 @@ export function Header() {
         to={user ? (user.role === "cliente" ? "/agendar" : "/consultas") : "/"}
         className="layout__brand"
       >
-        <span className="layout__logo">MN</span>
+        <AppLogo size="md" />
         <div>
-          <h1>MediNote</h1>
+          <h1>Monwe</h1>
           <p>
             {user?.role === "cliente"
               ? user.pacienteNombre

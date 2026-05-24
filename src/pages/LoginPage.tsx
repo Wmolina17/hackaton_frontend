@@ -2,6 +2,7 @@ import { FormEvent, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { USE_MOCK } from "@/api/config";
 import { MOCK_AUTH_USERS } from "@/api/mock/auth.mock";
+import { AppLogo } from "@/components/brand/AppLogo";
 import { BackgroundScene } from "@/components/layout/BackgroundScene";
 import { Button } from "@/components/ui/Button";
 import { useAuth } from "@/context/AuthContext";
@@ -41,9 +42,9 @@ export function LoginPage() {
       <BackgroundScene />
       <div className="login-page__card">
         <div className="login-page__brand">
-          <span className="login-page__logo">MN</span>
+          <AppLogo size="lg" />
           <div>
-            <h1>MediNote</h1>
+            <h1>Monwe</h1>
             <p>Plataforma clínica asistida por IA</p>
           </div>
         </div>

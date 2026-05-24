@@ -131,7 +131,7 @@ export function ChatInput({ onSend, onStop, isLoading }: ChatInputProps) {
             onChange={e => setValue(e.target.value)}
             onKeyDown={handleKeyDown}
             disabled={isLoading && !value}
-            placeholder="Enviar un mensaje a MediNote..."
+            placeholder="Enviar un mensaje a Monwe..."
             className="w-full custom-scrollbar text-sm font-normal leading-relaxed placeholder:opacity-40"
             style={{
               fontFamily: 'Poppins, sans-serif',

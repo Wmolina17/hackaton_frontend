@@ -1,4 +1,4 @@
-# Frontend — MediNote AI
+# Frontend — Monwe
 
 App unificada **FE1 (consulta/voz) + FE2 (agendar/historial)** con **React + Vite + TypeScript**.
 
@@ -61,7 +61,7 @@ import { api } from "@/api/client";
 import { HomePage } from "@/pages/HomePage";
 ```
 
-## Flujo demo (MediNote)
+## Flujo demo (Monwe)
 
 1. **Agendar** (`/`) → médico, horario, paciente → confirma cita → redirige a **Consulta**
 2. **Consulta** → Iniciar → grabar → Terminar → IA mock devuelve transcripción + historial

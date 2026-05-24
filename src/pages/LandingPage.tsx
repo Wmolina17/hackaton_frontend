@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import { AppLogo } from "@/components/brand/AppLogo";
 import { BackgroundScene } from "@/components/layout/BackgroundScene";
 import { Button } from "@/components/ui/Button";
 import "./LandingPage.css";
@@ -49,8 +50,7 @@ export function LandingPage() {
 
       <header className="landing__nav">
         <Link to="/" className="landing__logo">
-          <span className="landing__logo-icon">MN</span>
-          MediNote
+          <AppLogo size="xl" showText />
         </Link>
         <Link to="/acceso" className="landing__nav-cta">
           <Button>Iniciar sesión</Button>
@@ -59,6 +59,7 @@ export function LandingPage() {
 
       <main>
         <section className="landing__hero">
+          <AppLogo size="hero" className="landing__hero-logo" />
           <p className="landing__eyebrow">Plataforma clínica asistida por IA</p>
           <h1>
             De la consulta
@@ -66,7 +67,7 @@ export function LandingPage() {
             al historial firmado
           </h1>
           <p className="landing__subtitle">
-            MediNote conecta pacientes y médicos en un flujo continuo: cita,
+            Monwe conecta pacientes y médicos en un flujo continuo: cita,
             consulta por voz, historial generado por IA, verificación de
             medicamentos y entrega al paciente.
           </p>
@@ -141,7 +142,7 @@ export function LandingPage() {
       </main>
 
       <footer className="landing__footer">
-        <span>MediNote · Consultas inteligentes</span>
+        <AppLogo size="sm" showText />
         <Link to="/acceso">Acceder a la plataforma</Link>
       </footer>
     </div>
