@@ -1,0 +1,120 @@
+.login-page {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem 1.25rem;
+  position: relative;
+}
+
+.login-page__card {
+  position: relative;
+  z-index: 1;
+  width: min(480px, 100%);
+  background: var(--mn-surface);
+  border: 1px solid var(--mn-border);
+  border-radius: calc(var(--mn-radius) + 4px);
+  padding: 2rem;
+  box-shadow: var(--mn-shadow-lg);
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.login-page__brand {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+}
+
+.login-page__logo {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  background: linear-gradient(135deg, var(--mn-primary), var(--mn-accent));
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 800;
+  font-size: 0.85rem;
+}
+
+.login-page__brand h1 {
+  margin: 0;
+  font-size: 1.35rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+.login-page__brand p {
+  margin: 0.15rem 0 0;
+  font-size: 0.85rem;
+  color: var(--mn-text-muted);
+}
+
+.login-page__intro {
+  margin: 0;
+  font-size: 0.9rem;
+  color: var(--mn-text-muted);
+  line-height: 1.55;
+}
+
+.login-page__options {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.login-page__option {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem 1.15rem;
+  border-radius: var(--mn-radius);
+  border: 1px solid var(--mn-border);
+  background: var(--mn-bg);
+  text-align: left;
+  transition: border-color 0.2s, box-shadow 0.2s, transform 0.15s;
+}
+
+.login-page__option:hover {
+  border-color: var(--mn-primary);
+  box-shadow: 0 4px 16px var(--mn-primary-glow);
+  transform: translateY(-1px);
+}
+
+.login-page__option strong {
+  display: block;
+  font-size: 0.95rem;
+  color: var(--mn-text);
+  margin-bottom: 0.15rem;
+}
+
+.login-page__option span:last-child {
+  font-size: 0.82rem;
+  color: var(--mn-text-muted);
+  line-height: 1.4;
+}
+
+.login-page__option-icon {
+  width: 42px;
+  height: 42px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 1rem;
+  flex-shrink: 0;
+}
+
+.login-page__option-icon--client {
+  background: var(--mn-accent-soft);
+  color: var(--mn-accent);
+}
+
+.login-page__option-icon--doctor {
+  background: #eef2ff;
+  color: var(--mn-primary);
+}

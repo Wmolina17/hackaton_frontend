@@ -1,0 +1,144 @@
+.mis-citas-page {
+  max-width: 960px;
+  margin: 0 auto;
+}
+
+.mis-citas__hero {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.mis-citas__section {
+  margin-top: 1.75rem;
+}
+
+.mis-citas__section-title {
+  font-size: 0.95rem;
+  font-weight: 600;
+  margin: 0 0 0.85rem 0;
+  color: var(--mn-text);
+}
+
+.mis-citas__count {
+  color: var(--mn-text-muted);
+  font-weight: 400;
+  font-size: 0.85rem;
+}
+
+.mis-citas__empty {
+  background: var(--mn-surface);
+  border: 1px dashed var(--mn-border);
+  border-radius: var(--mn-radius);
+  padding: 2rem 1.25rem;
+  text-align: center;
+  color: var(--mn-text-muted);
+}
+
+.mis-citas__empty p {
+  margin: 0 0 1rem 0;
+}
+
+.mis-citas__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 0.85rem;
+}
+
+.mis-citas__card {
+  background: var(--mn-surface);
+  border: 1px solid var(--mn-border);
+  border-radius: var(--mn-radius);
+  padding: 1rem 1.1rem;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+  box-shadow: var(--mn-shadow);
+}
+
+.mis-citas__card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--mn-shadow-lg);
+}
+
+.mis-citas__card--highlight {
+  border-color: var(--mn-primary);
+  border-left: 3px solid var(--mn-primary);
+}
+
+.mis-citas__card-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 0.6rem;
+  margin-bottom: 0.85rem;
+}
+
+.mis-citas__card-header h4 {
+  margin: 0 0 0.15rem 0;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--mn-text);
+}
+
+.mis-citas__card-esp {
+  margin: 0;
+  font-size: 0.78rem;
+  color: var(--mn-text-muted);
+}
+
+.mis-citas__badge {
+  font-size: 0.68rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  padding: 0.2rem 0.55rem;
+  border-radius: var(--mn-radius-pill);
+  white-space: nowrap;
+}
+
+.mis-citas__badge--info {
+  background: var(--mn-primary-light);
+  color: var(--mn-primary-dark);
+}
+
+.mis-citas__badge--success {
+  background: var(--mn-success-soft);
+  color: var(--mn-success);
+}
+
+.mis-citas__badge--warning {
+  background: var(--mn-warning-soft);
+  color: var(--mn-warning);
+}
+
+.mis-citas__badge--muted {
+  background: var(--mn-surface-hover);
+  color: var(--mn-text-muted);
+}
+
+.mis-citas__card-body {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.mis-citas__row {
+  display: flex;
+  gap: 0.6rem;
+  font-size: 0.82rem;
+}
+
+.mis-citas__label {
+  min-width: 50px;
+  color: var(--mn-text-muted);
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding-top: 2px;
+}
+
+.mis-citas__value {
+  color: var(--mn-text);
+  flex: 1;
+}

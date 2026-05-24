@@ -1,0 +1,14 @@
+.agendar-page {
+  max-width: 720px;
+  margin: 0 auto;
+}
+
+.agendar-page--chat {
+  max-width: 100%;
+  width: 100%;
+  height: 100vh;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+}
