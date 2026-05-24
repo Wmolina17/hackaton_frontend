@@ -75,7 +75,15 @@ export function useChat() {
       wsRef.current = ws
 
       ws.onopen = () => {
-        ws.send(JSON.stringify({ text, generate_historial: generateHistorial, ...extras }))
+        const history = messages
+          .slice(-12)
+          .map((m) => ({
+            role: m.role,
+            content: m.content || '',
+          }))
+          .filter((m) => m.content.trim().length > 0)
+
+        ws.send(JSON.stringify({ text, generate_historial: generateHistorial, history, ...extras }))
       }
 
       ws.onmessage = (event) => {
@@ -198,7 +206,7 @@ export function useChat() {
         wsRef.current = null
       }
     },
-    [isLoading, addMessage]
+    [isLoading, addMessage, messages]
   )
 
   return { messages, isLoading, sendMessage, stopStreaming }
