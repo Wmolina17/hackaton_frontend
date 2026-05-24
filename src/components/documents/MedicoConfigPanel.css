@@ -1,0 +1,60 @@
+.medico-config {
+  padding: 1.25rem;
+  border: 1px solid var(--mn-border);
+  border-radius: var(--mn-radius);
+  background: var(--mn-surface);
+}
+
+.medico-config h3 {
+  margin: 0 0 0.25rem;
+  font-size: 1rem;
+}
+
+.medico-config__hint {
+  margin: 0 0 1rem;
+  font-size: 0.82rem;
+  color: var(--mn-text-muted);
+}
+
+.medico-config__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 0.85rem;
+  margin-bottom: 1.25rem;
+}
+
+.medico-config__grid label {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--mn-text-muted);
+}
+
+.medico-config__grid input {
+  padding: 0.5rem 0.65rem;
+  border: 1px solid var(--mn-border);
+  border-radius: var(--mn-radius-sm);
+  font: inherit;
+  color: var(--mn-text);
+}
+
+.medico-config__grid input:focus {
+  outline: none;
+  border-color: var(--mn-primary);
+  box-shadow: 0 0 0 3px var(--mn-primary-glow);
+}
+
+.medico-config__logo {
+  padding-top: 1rem;
+  border-top: 1px solid var(--mn-border);
+}
+
+.medico-config__logo-label {
+  display: block;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--mn-text-muted);
+  margin-bottom: 0.65rem;
+}

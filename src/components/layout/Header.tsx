@@ -12,11 +12,15 @@ export function Header() {
     navigate("/acceso");
   }
 
+  const historialPacientePath = user?.pacienteId
+    ? `/historial/paciente/${user.pacienteId}`
+    : "/historial/paciente/pac-001";
+
   const navLinks =
     user?.role === "cliente"
       ? [
-          { to: "/agendar", label: "Agendar cita" },
-          { to: "/mi-historial", label: "Mi historial" },
+          { to: "/agendar", label: "Asistente" },
+          { to: historialPacientePath, label: "Mi historial" },
         ]
       : [
           { to: "/consultas", label: "Consultas" },
@@ -26,7 +30,10 @@ export function Header() {
 
   return (
     <header className="layout__header">
-      <Link to={user ? (user.role === "cliente" ? "/agendar" : "/consultas") : "/"} className="layout__brand">
+      <Link
+        to={user ? (user.role === "cliente" ? "/agendar" : "/consultas") : "/"}
+        className="layout__brand"
+      >
         <span className="layout__logo">MN</span>
         <div>
           <h1>MediNote</h1>

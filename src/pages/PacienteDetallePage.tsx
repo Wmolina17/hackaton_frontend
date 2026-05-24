@@ -1,15 +1,11 @@
 import { useEffect, useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link, Navigate, useParams } from "react-router-dom";
 import { pacientesListApi } from "@/api/pacientes";
 import { Button } from "@/components/ui/Button";
 import { Toast } from "@/components/ui/Toast";
+import { useAuth } from "@/context/AuthContext";
 import type { PacienteDetalle } from "@/types/pacientes";
 import "./PacienteDetallePage.css";
-
-interface PacienteDetallePageProps {
-  pacienteIdOverride?: string;
-  isOwnHistory?: boolean;
-}
 
 function downloadBlob(blob: Blob, filename: string) {
   const url = URL.createObjectURL(blob);
@@ -20,12 +16,12 @@ function downloadBlob(blob: Blob, filename: string) {
   URL.revokeObjectURL(url);
 }
 
-export function PacienteDetallePage({
-  pacienteIdOverride,
-  isOwnHistory = false,
-}: PacienteDetallePageProps = {}) {
-  const { pacienteId: routeId } = useParams();
-  const pacienteId = pacienteIdOverride ?? routeId;
+export function PacienteDetallePage() {
+  const { pacienteId } = useParams();
+  const { user } = useAuth();
+  const isMedico = user?.role === "medico";
+  const isCliente = user?.role === "cliente";
+
   const [paciente, setPaciente] = useState<PacienteDetalle | null>(null);
   const [loading, setLoading] = useState(true);
   const [downloadingPdf, setDownloadingPdf] = useState(false);
@@ -36,6 +32,7 @@ export function PacienteDetallePage({
 
   useEffect(() => {
     if (!pacienteId) return;
+    setLoading(true);
     void (async () => {
       const { data, error } = await pacientesListApi.get(pacienteId);
       if (data) setPaciente(data);
@@ -43,6 +40,10 @@ export function PacienteDetallePage({
       setLoading(false);
     })();
   }, [pacienteId]);
+
+  if (isCliente && user?.pacienteId && pacienteId !== user.pacienteId) {
+    return <Navigate to={`/historial/paciente/${user.pacienteId}`} replace />;
+  }
 
   async function descargarHistorialPdf() {
     if (!pacienteId || !paciente) return;
@@ -70,7 +71,7 @@ export function PacienteDetallePage({
 
   return (
     <div className="mn-page paciente-detalle">
-      {!isOwnHistory && (
+      {isMedico && (
         <Link to="/historial" className="paciente-detalle__back">
           ← Todos los pacientes
         </Link>
@@ -79,7 +80,7 @@ export function PacienteDetallePage({
       <header className="paciente-detalle__header mn-panel">
         <span className="paciente-detalle__avatar">{paciente.nombre.charAt(0)}</span>
         <div className="paciente-detalle__header-info">
-          <h2>{isOwnHistory ? "Mi historial clínico" : paciente.nombre}</h2>
+          <h2>{isCliente ? "Mi historial clínico" : paciente.nombre}</h2>
           <p>
             CC {paciente.documento}
             {paciente.telefono ? ` · ${paciente.telefono}` : ""}
@@ -112,11 +113,11 @@ export function PacienteDetallePage({
                 <p className="paciente-detalle__diag">{c.diagnostico}</p>
                 <p className="paciente-detalle__medico">{c.medico_nombre}</p>
               </div>
-              {!isOwnHistory && (
-                <Link to={`/historial/editar/${c.historial_id}`}>
-                  <Button variant="secondary">Revisar y firmar</Button>
-                </Link>
-              )}
+              <Link
+                to={`/historial/consulta/${c.historial_id}?paciente=${pacienteId}`}
+              >
+                <Button variant="secondary">Ver detalle</Button>
+              </Link>
             </li>
           ))}
         </ul>

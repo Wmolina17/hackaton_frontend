@@ -92,6 +92,17 @@
   box-sizing: border-box;
 }
 
+.layout__main--chat {
+  flex: 1;
+  padding: 0;
+  margin: 0;
+  max-width: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  min-height: calc(100vh - 4.25rem);
+}
+
 .layout--fullscreen {
   min-height: 100vh;
 }

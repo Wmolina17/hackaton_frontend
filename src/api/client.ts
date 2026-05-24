@@ -1,6 +1,5 @@
+import { API_URL } from "@/api/config";
 import type { ApiResponse } from "@/types";
-
-const API_URL = import.meta.env.VITE_API_URL || "";
 
 type RequestOptions = Omit<RequestInit, "body"> & {
   body?: unknown;

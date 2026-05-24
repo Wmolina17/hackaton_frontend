@@ -1,4 +1,5 @@
 import { useCallback, useRef, useState } from 'react'
+import { API_URL } from '@/api/config'
 
 export type AudioState = 'idle' | 'recording' | 'transcribing'
 
@@ -69,7 +70,7 @@ export function useAudio(onTranscript: (text: string) => void) {
           fd.append('file', blob, `audio.${ext}`)
           fd.append('language', 'es')
 
-          const res = await fetch('/api/transcribe', { method: 'POST', body: fd })
+          const res = await fetch(`${API_URL}/transcribe`, { method: 'POST', body: fd })
           if (res.ok) {
             const data = await res.json()
             const transcript: string = data?.data?.transcript || ''

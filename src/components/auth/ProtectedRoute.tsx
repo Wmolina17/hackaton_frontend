@@ -16,7 +16,10 @@ export function ProtectedRoute({ children, roles }: ProtectedRouteProps) {
   }
 
   if (roles && !roles.includes(user.role)) {
-    const fallback = user.role === "cliente" ? "/agendar" : "/consultas";
+    const fallback =
+      user.role === "cliente"
+        ? `/historial/paciente/${user.pacienteId ?? "pac-001"}`
+        : "/consultas";
     return <Navigate to={fallback} replace />;
   }
 

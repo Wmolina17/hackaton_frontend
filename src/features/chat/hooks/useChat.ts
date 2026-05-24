@@ -1,11 +1,8 @@
 ﻿import { useCallback, useRef, useState } from 'react'
+import { WS_URL } from '@/api/config'
 import type { Message, ToolCall } from '../types'
 
-const CHATBOT_WS_BASE =
-  (import.meta as any).env?.VITE_CHATBOT_WS ||
-  (typeof window !== 'undefined'
-    ? `ws://${window.location.hostname}:8001/ws`
-    : 'ws://localhost:8001/ws')
+const CHATBOT_WS_BASE = WS_URL
 
 function generateId() {
   return Math.random().toString(36).slice(2, 10)

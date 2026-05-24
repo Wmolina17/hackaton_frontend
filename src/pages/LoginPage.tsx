@@ -1,17 +1,40 @@
+import { FormEvent, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { USE_MOCK } from "@/api/config";
+import { MOCK_AUTH_USERS } from "@/api/mock/auth.mock";
 import { BackgroundScene } from "@/components/layout/BackgroundScene";
 import { Button } from "@/components/ui/Button";
-import { useAuth, type UserRole } from "@/context/AuthContext";
+import { useAuth } from "@/context/AuthContext";
 import "./LoginPage.css";
 
 export function LoginPage() {
   const navigate = useNavigate();
-  const { loginAs } = useAuth();
+  const { login } = useAuth();
+  const [cedula, setCedula] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
 
-  function enterAs(role: UserRole) {
-    loginAs(role);
-    navigate(role === "cliente" ? "/agendar" : "/consultas");
+  async function handleSubmit(e: FormEvent) {
+    e.preventDefault();
+    setError("");
+    setLoading(true);
+    const result = await login(cedula, password);
+    setLoading(false);
+    if (!result.ok) {
+      setError(result.error);
+      return;
+    }
+
+    navigate(result.role === "cliente" ? "/agendar" : "/consultas");
   }
+
+  const demoPaciente = USE_MOCK
+    ? MOCK_AUTH_USERS.find((u) => u.role === "cliente")
+    : { cedula: "2001", password: "paciente123" };
+  const demoMedico = USE_MOCK
+    ? MOCK_AUTH_USERS.find((u) => u.role === "medico")
+    : { cedula: "1001", password: "medico123" };
 
   return (
     <div className="login-page">
@@ -26,38 +49,54 @@ export function LoginPage() {
         </div>
 
         <p className="login-page__intro">
-          Selecciona tu perfil para continuar. No se requieren credenciales en esta
-          demostración.
+          Ingresa con tu cédula y contraseña para acceder a la plataforma.
         </p>
 
-        <div className="login-page__options">
-          <button
-            type="button"
-            className="login-page__option"
-            onClick={() => enterAs("cliente")}
-          >
-            <span className="login-page__option-icon login-page__option-icon--client">
-              P
-            </span>
-            <div>
-              <strong>Soy paciente</strong>
-              <span>Agendar citas y consultar mi historial clínico</span>
-            </div>
-          </button>
+        <form className="login-page__form" onSubmit={handleSubmit}>
+          <label className="login-page__field">
+            Cédula
+            <input
+              type="text"
+              inputMode="numeric"
+              autoComplete="username"
+              placeholder="Ej. 1023456789"
+              value={cedula}
+              onChange={(e) => setCedula(e.target.value)}
+            />
+          </label>
 
-          <button
-            type="button"
-            className="login-page__option"
-            onClick={() => enterAs("medico")}
-          >
-            <span className="login-page__option-icon login-page__option-icon--doctor">
-              M
-            </span>
-            <div>
-              <strong>Soy médico</strong>
-              <span>Gestionar consultas, historiales y formulación</span>
-            </div>
-          </button>
+          <label className="login-page__field">
+            Contraseña
+            <input
+              type="password"
+              autoComplete="current-password"
+              placeholder="Tu contraseña"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+            />
+          </label>
+
+          {error && (
+            <p className="login-page__error" role="alert">
+              {error}
+            </p>
+          )}
+
+          <Button type="submit" disabled={loading}>
+            {loading ? "Ingresando..." : "Ingresar"}
+          </Button>
+        </form>
+
+        <div className="login-page__demo">
+          <p className="login-page__demo-title">Credenciales de prueba</p>
+          <ul>
+            <li>
+              <strong>Paciente:</strong> {demoPaciente?.cedula} / {demoPaciente?.password}
+            </li>
+            <li>
+              <strong>Médico:</strong> {demoMedico?.cedula} / {demoMedico?.password}
+            </li>
+          </ul>
         </div>
 
         <Button variant="secondary" onClick={() => navigate("/")}>

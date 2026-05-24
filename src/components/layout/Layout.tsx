@@ -5,13 +5,15 @@ import "./Layout.css";
 
 export function Layout() {
   const location = useLocation();
-  const isChatFullscreen = location.pathname === "/agendar";
+  const isChatPage = location.pathname === "/agendar";
 
   return (
-    <div className={`layout${isChatFullscreen ? " layout--fullscreen" : ""}`}>
-      {!isChatFullscreen && <BackgroundScene />}
-      {!isChatFullscreen && <Header />}
-      <main className={`layout__main${isChatFullscreen ? " layout__main--fullscreen" : ""}`}>
+    <div className="layout">
+      <BackgroundScene />
+      <Header />
+      <main
+        className={`layout__main${isChatPage ? " layout__main--chat" : ""}`}
+      >
         <Outlet />
       </main>
     </div>

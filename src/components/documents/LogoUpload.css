@@ -1,0 +1,47 @@
+.logo-upload {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.logo-upload__preview {
+  width: 72px;
+  height: 72px;
+  border: 1px dashed var(--mn-border);
+  border-radius: var(--mn-radius-sm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  background: var(--mn-bg);
+}
+
+.logo-upload__preview img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+}
+
+.logo-upload__placeholder {
+  font-size: 0.72rem;
+  color: var(--mn-text-muted);
+}
+
+.logo-upload__input {
+  display: none;
+}
+
+.logo-upload__actions {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.logo-upload__remove {
+  border: none;
+  background: transparent;
+  color: var(--mn-error);
+  font-size: 0.82rem;
+  font-weight: 500;
+}
