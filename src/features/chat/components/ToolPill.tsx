@@ -1,19 +1,16 @@
-﻿import { motion, AnimatePresence } from 'framer-motion'
-import { CheckCircle2, Loader2, XCircle, Stethoscope, Calendar, FileText, Zap } from 'lucide-react'
+﻿import { motion } from 'framer-motion'
 import type { ToolCall } from '../types'
 
-const TOOL_ICONS: Record<string, React.ReactNode> = {
-  schedule_appointment: <Calendar className="w-3.5 h-3.5" />,
-  medical_query:        <Stethoscope className="w-3.5 h-3.5" />,
-  generate_historial:   <FileText className="w-3.5 h-3.5" />,
-  process_message:      <Zap className="w-3.5 h-3.5" />,
-}
-
 const TOOL_LABELS: Record<string, string> = {
-  schedule_appointment: 'Buscando disponibilidad',
-  medical_query:        'Analizando consulta médica',
-  generate_historial:   'Generando historial clínico',
-  process_message:      'Procesando mensaje',
+  crear_paciente:       'Registrando paciente...',
+  monitor_paciente:     'Consultando historial del paciente...',
+  generar_historial:    'Generando historial clinico...',
+  buscar_medico:        'Buscando medicos disponibles...',
+  crear_cita:           'Agendando cita...',
+  schedule_appointment: 'Verificando disponibilidad...',
+  medical_query:        'Analizando consulta...',
+  process_message:      'Procesando...',
+  consulta_medica:      'Analizando tu mensaje...',
 }
 
 interface ToolPillProps {
@@ -21,42 +18,29 @@ interface ToolPillProps {
 }
 
 export function ToolPill({ tool }: ToolPillProps) {
-  const label = tool.label || TOOL_LABELS[tool.name] || tool.name
-  const icon = TOOL_ICONS[tool.name] || <Zap className="w-3.5 h-3.5" />
+  const isRunning = tool.status === 'running'
+  const label = TOOL_LABELS[tool.name] || (tool.label ? `${tool.label}...` : 'Procesando...')
+
+  if (!isRunning) return null
 
   return (
-    <motion.div
-      initial={{ opacity: 0, x: -8 }}
-      animate={{ opacity: 1, x: 0 }}
-      className="tool-pill inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-medium select-none"
+    <motion.p
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
       style={{
-        backgroundColor: 'transparent',
-        border: 'none',
-        padding: '0',
-        color: tool.status === 'error' ? 'rgba(239,68,68,0.9)' : 'rgba(71,85,105,1)',
+        fontSize: '0.72rem',
+        color: 'rgba(100,116,139,0.75)',
+        fontStyle: 'italic',
+        margin: '0 0 4px 0',
+        background: 'linear-gradient(90deg, rgba(100,116,139,0.35) 0%, rgba(100,116,139,0.9) 40%, rgba(100,116,139,0.35) 100%)',
+        backgroundSize: '200% auto',
+        WebkitBackgroundClip: 'text',
+        WebkitTextFillColor: 'transparent',
+        animation: 'shimmer-text 1.8s linear infinite',
       }}
     >
-      <span style={{ color: tool.status === 'error' ? 'rgba(239,68,68,0.9)' : 'rgba(100,116,139,0.85)' }}>
-        {icon}
-      </span>
-      <span>{label}</span>
-      <AnimatePresence mode="wait">
-        {tool.status === 'running' && (
-          <motion.span key="run" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
-            <Loader2 className="w-3 h-3 animate-spin" />
-          </motion.span>
-        )}
-        {tool.status === 'done' && (
-          <motion.span key="done" initial={{ scale: 0 }} animate={{ scale: 1 }} exit={{ scale: 0 }}>
-            <CheckCircle2 className="w-3 h-3" style={{ color: 'rgba(74,222,128,0.8)' }} />
-          </motion.span>
-        )}
-        {tool.status === 'error' && (
-          <motion.span key="err" initial={{ scale: 0 }} animate={{ scale: 1 }} exit={{ scale: 0 }}>
-            <XCircle className="w-3 h-3" />
-          </motion.span>
-        )}
-      </AnimatePresence>
-    </motion.div>
+      {label}
+    </motion.p>
   )
 }

@@ -3,6 +3,7 @@ import { motion } from 'framer-motion'
 import { CalendarCheck, Stethoscope, User, Building2, Clock, CheckCircle2, ArrowRight, Loader2 } from 'lucide-react'
 import { useNavigate } from 'react-router-dom'
 import { citasAgentApi } from '@/api/citas-agent'
+import { USE_MOCK } from '@/api/config'
 import type { CitaConfirmada } from '../types'
 
 interface AppointmentCardProps {
@@ -18,6 +19,10 @@ export function AppointmentCard({ cita }: AppointmentCardProps) {
   useEffect(() => {
     if (registeredRef.current) return
     registeredRef.current = true
+    if (!USE_MOCK) {
+      setSyncStatus('synced')
+      return
+    }
     void (async () => {
       const { data, error } = await citasAgentApi.fromAgent(cita)
       if (error || !data) {
@@ -124,15 +129,15 @@ export function AppointmentCard({ cita }: AppointmentCardProps) {
             <><Loader2 className="w-3 h-3 animate-spin" /> Registrando en el sistema...</>
           )}
           {syncStatus === 'synced' && (
-            <><CheckCircle2 className="w-3 h-3" style={{ color: '#16a34a' }} /> Registrada en tu historial</>
+            <><CheckCircle2 className="w-3 h-3" style={{ color: '#16a34a' }} /> Registrada en sistema. Puedes verla en Mis citas.</>
           )}
           {syncStatus === 'error' && (
-            <span style={{ color: '#dc2626' }}>Error al sincronizar</span>
+            <span style={{ color: '#dc2626' }}>Error al sincronizar en modo mock</span>
           )}
         </div>
         <button
           type="button"
-          onClick={() => navigate('/mi-historial')}
+          onClick={() => navigate('/mis-citas')}
           className="inline-flex items-center gap-1.5 text-xs font-semibold px-3.5 py-2 rounded-lg transition-colors"
           style={{
             backgroundColor: 'var(--mn-primary)',
@@ -145,7 +150,7 @@ export function AppointmentCard({ cita }: AppointmentCardProps) {
             (e.currentTarget as HTMLButtonElement).style.backgroundColor = 'var(--mn-primary)'
           }}
         >
-          Ver mis citas <ArrowRight className="w-3.5 h-3.5" />
+          Ir a Mis citas <ArrowRight className="w-3.5 h-3.5" />
         </button>
       </div>
     </motion.div>

@@ -20,6 +20,7 @@ export function Header() {
     user?.role === "cliente"
       ? [
           { to: "/agendar", label: "Asistente" },
+          { to: "/mis-citas", label: "Mis citas" },
           { to: historialPacientePath, label: "Mi historial" },
         ]
       : [

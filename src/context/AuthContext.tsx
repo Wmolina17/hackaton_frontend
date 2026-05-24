@@ -33,6 +33,7 @@ interface AuthContextValue {
   >;
   logout: () => void;
 }
+type LoginResult = { ok: true; role: UserRole } | { ok: false; error: string };
 
 function readStoredUser(): AuthUser | null {
   try {
@@ -62,7 +63,7 @@ const AuthContext = createContext<AuthContextValue | null>(null);
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<AuthUser | null>(() => readStoredUser());
 
-  const login = useCallback(async (cedula: string, password: string) => {
+  const login = useCallback(async (cedula: string, password: string): Promise<LoginResult> => {
     const trimmedCedula = cedula.trim();
     if (!trimmedCedula || !password) {
       return { ok: false as const, error: "Ingresa cédula y contraseña" };
@@ -76,7 +77,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       const next = recordToUser(record)!;
       sessionStorage.setItem(AUTH_STORAGE_KEY, JSON.stringify(next));
       setUser(next);
-      return { ok: true as const, role: next.role };
+      return { ok: true as const, role: next.role as UserRole };
     }
 
     const medicoRes = await authApi.loginMedico(trimmedCedula, password);

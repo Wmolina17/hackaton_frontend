@@ -13,6 +13,7 @@ export function useChat() {
   const [isLoading, setIsLoading] = useState(false)
   const wsRef = useRef<WebSocket | null>(null)
   const abortRef = useRef(false)
+  const bookingContextRef = useRef<Record<string, unknown>>({})
 
   const addMessage = useCallback((msg: Message) => {
     setMessages(prev => [...prev, msg])
@@ -83,7 +84,13 @@ export function useChat() {
           }))
           .filter((m) => m.content.trim().length > 0)
 
-        ws.send(JSON.stringify({ text, generate_historial: generateHistorial, history, ...extras }))
+        ws.send(JSON.stringify({
+          text,
+          generate_historial: generateHistorial,
+          history,
+          ...bookingContextRef.current,
+          ...extras,
+        }))
       }
 
       ws.onmessage = (event) => {
@@ -114,6 +121,30 @@ export function useChat() {
 
         // Tool terminÃ³
         if (data.type === 'tool_result') {
+          const result = data.result ?? {}
+          const medicos = Array.isArray(result.medicos) ? result.medicos : []
+          const slots = Array.isArray(result.slots) ? result.slots : []
+          if (medicos.length > 0) {
+            const firstMedico = medicos[0] as Record<string, unknown>
+            if (firstMedico?.id != null) {
+              bookingContextRef.current.medico_id = firstMedico.id
+            }
+          }
+          if (slots.length > 0) {
+            const firstSlot = slots[0] as Record<string, unknown>
+            if (firstSlot?.id != null) {
+              bookingContextRef.current.slot_id = firstSlot.id
+            }
+          }
+          if (result.patient && typeof result.patient === 'object') {
+            const p = result.patient as Record<string, unknown>
+            if (p.id != null) bookingContextRef.current.paciente_id = p.id
+            if (p.documento != null) bookingContextRef.current.documento = p.documento
+            if (p.nombre != null) bookingContextRef.current.nombre = p.nombre
+            if (p.telefono != null) bookingContextRef.current.telefono = p.telefono
+            if (p.eps != null) bookingContextRef.current.eps = p.eps
+          }
+
           setMessages(prev => {
             const next = [...prev]
             const last = next[next.length - 1]
@@ -122,7 +153,13 @@ export function useChat() {
                 ...last,
                 toolCalls: last.toolCalls?.map(t =>
                   t.id === data.tool_id
-                    ? { ...t, status: data.success ? 'done' : 'error' }
+                    ? {
+                        ...t,
+                        status: data.success ? 'done' : 'error',
+                        success: Boolean(data.success),
+                        executedAt: Date.now(),
+                        resultData: data.result ?? {},
+                      }
                     : t
                 ),
               }

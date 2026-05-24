@@ -34,6 +34,10 @@ export interface ToolCall {
   name: string
   status: 'running' | 'done' | 'error'
   result?: string
+  label?: string
+  success?: boolean
+  executedAt?: number
+  resultData?: Record<string, unknown>
 }
 
 export interface HistorialClinico {

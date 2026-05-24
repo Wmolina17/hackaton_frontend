@@ -64,9 +64,9 @@ export function MessageBubble({ message, onRegenerate }: MessageBubbleProps) {
       </div>
 
       <div className="flex-1 min-w-0">
-        {message.toolCalls && message.toolCalls.length > 0 && (
-          <div className="flex flex-wrap gap-2 mb-2">
-            {message.toolCalls.map(tool => (
+        {message.toolCalls?.some(t => t.status === 'running') && (
+          <div className="mb-1">
+            {message.toolCalls.filter(t => t.status === 'running').slice(0,1).map(tool => (
               <ToolPill key={tool.id} tool={tool as any} />
             ))}
           </div>

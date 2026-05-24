@@ -10,7 +10,9 @@ import { HistorialConsultaPage } from "@/pages/HistorialConsultaPage";
 import { HistorialEditorPage } from "@/pages/HistorialEditorPage";
 import { LandingPage } from "@/pages/LandingPage";
 import { LoginPage } from "@/pages/LoginPage";
-import { MedicamentosPage } from "@/pages/MedicamentosPage";
+import { MedicamentosPage } from "@/pages/MedicamentosPage";
+import { MisCitasPage } from "@/pages/MisCitasPage";
+import { MisCitaDetallePage } from "@/pages/MisCitaDetallePage";
 import { PacienteDetallePage } from "@/pages/PacienteDetallePage";
 import { PacientesListPage } from "@/pages/PacientesListPage";
 import { RedirectMiHistorial } from "@/pages/RedirectMiHistorial";
@@ -93,7 +95,23 @@ export function App() {
                 </ProtectedRoute>
               }
             />
-            <Route path="/mi-historial" element={<RedirectMiHistorial />} />
+            <Route path="/mi-historial" element={<RedirectMiHistorial />} />
+            <Route
+              path="/mis-citas"
+              element={
+                <ProtectedRoute roles={["cliente"]}>
+                  <MisCitasPage />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/mis-citas/:citaId"
+              element={
+                <ProtectedRoute roles={["cliente"]}>
+                  <MisCitaDetallePage />
+                </ProtectedRoute>
+              }
+            />
             <Route path="/agendar/manual" element={<Navigate to="/agendar" replace />} />
             <Route path="/asistente" element={<Navigate to="/agendar" replace />} />
           </Route>

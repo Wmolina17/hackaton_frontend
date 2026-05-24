@@ -51,9 +51,10 @@
   background: var(--mn-surface);
   border: 1px solid var(--mn-border);
   border-radius: var(--mn-radius);
-  padding: 1rem 1.1rem;
+  padding: 0;
   transition: transform 0.15s ease, box-shadow 0.15s ease;
   box-shadow: var(--mn-shadow);
+  overflow: hidden;
 }
 
 .mis-citas__card:hover {
@@ -64,6 +65,13 @@
 .mis-citas__card--highlight {
   border-color: var(--mn-primary);
   border-left: 3px solid var(--mn-primary);
+}
+
+.mis-citas__card-link {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+  padding: 1rem 1.1rem;
 }
 
 .mis-citas__card-header {
@@ -120,7 +128,26 @@
 .mis-citas__card-body {
   display: flex;
   flex-direction: column;
-  gap: 0.4rem;
+  gap: 0.55rem;
+}
+
+.mis-citas__simple {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+}
+
+.mis-citas__simple-label {
+  color: var(--mn-text-muted);
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.mis-citas__simple-value {
+  color: var(--mn-text);
+  font-size: 0.86rem;
+  font-weight: 500;
 }
 
 .mis-citas__row {
