@@ -112,7 +112,7 @@ export function ChatPanel() {
 
     <div className="medinote-chat medinote-chat-shell flex flex-col w-full flex-1 overflow-hidden">
 
-      <div ref={scrollRef} className="flex-1 overflow-y-auto custom-scrollbar">
+      <div ref={scrollRef} className="medinote-chat__messages flex-1 overflow-y-auto custom-scrollbar">
 
         {!hasMessages ? (
 
@@ -124,7 +124,7 @@ export function ChatPanel() {
 
             transition={{ duration: 0.4 }}
 
-            className="medinote-chat-welcome flex flex-col items-center justify-center h-full px-6 text-center min-h-[420px]"
+            className="medinote-chat-welcome flex flex-col items-center justify-center h-full px-6 text-center"
 
           >
 
@@ -135,17 +135,6 @@ export function ChatPanel() {
             >
               <AppLogo size="xl" />
             </motion.div>
-
-
-
-            <h2 className="medinote-chat-welcome__title text-2xl font-semibold">Monwe AI</h2>
-
-            <p className="medinote-chat-welcome__copy text-sm">
-
-              Tu asistente médico inteligente. Agenda citas por voz o texto, transcribe consultas y genera historiales clínicos.
-
-            </p>
-
 
 
             <div className="medinote-chat-welcome__grid grid grid-cols-2 w-full">
@@ -200,11 +189,14 @@ export function ChatPanel() {
 
 
 
-      <div className="shrink-0 px-4 pb-5 pt-3">
+      <div className="medinote-chat__composer shrink-0 px-4 pb-0 pt-0">
 
         <ChatInput onSend={handleSend} onStop={stopStreaming} isLoading={isLoading} />
 
-        <p className="text-center text-xs mt-2.5" style={{ color: '#94a3b8', marginTop: '20px' }}>
+        <p
+          className="medinote-chat__footnote text-center text-xs mt-2.5"
+          style={{ color: '#94a3b8', display: hasMessages ? 'block' : 'none' }}
+        >
 
           Monwe puede cometer errores. Verifica información médica importante.
 

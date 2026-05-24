@@ -1,9 +1,8 @@
 ﻿import { motion } from 'framer-motion'
-import { Brain, Copy, Check, RefreshCw } from 'lucide-react'
+import { Copy, Check, RefreshCw } from 'lucide-react'
 import { useState } from 'react'
 import type { Message } from '../types'
 import { StreamingText } from './StreamingText'
-import { ToolPill } from './ToolPill'
 import { HistorialCard } from './HistorialCard'
 import { AppointmentCard } from './AppointmentCard'
 import { ThinkingDots } from './ThinkingDots'
@@ -15,6 +14,7 @@ interface MessageBubbleProps {
 
 export function MessageBubble({ message, onRegenerate }: MessageBubbleProps) {
   const [copied, setCopied] = useState(false)
+  const [showToolLog, setShowToolLog] = useState(false)
   const isUser = message.role === 'user'
 
   const handleCopy = async () => {
@@ -47,6 +47,8 @@ export function MessageBubble({ message, onRegenerate }: MessageBubbleProps) {
   }
 
   const hasActiveTool = Boolean(message.toolCalls?.some(tool => tool.status === 'running'))
+  const runningTools = (message.toolCalls || []).filter(tool => tool.status === 'running')
+  const executedTools = (message.toolCalls || []).filter(tool => tool.status !== 'running')
   const showThinking = message.isStreaming && !message.content && !hasActiveTool
 
   return (
@@ -56,19 +58,48 @@ export function MessageBubble({ message, onRegenerate }: MessageBubbleProps) {
       transition={{ duration: 0.25 }}
       className="flex gap-3 mb-4 group"
     >
-      <div
-        className="w-8 h-8 rounded-full flex items-center justify-center shrink-0 mt-0.5"
-        style={{ backgroundColor: '#f1f5f9', border: '1px solid rgba(226,232,240,0.7)' }}
-      >
-        <Brain className="w-4 h-4" style={{ color: '#0f172a' }} />
-      </div>
+
 
       <div className="flex-1 min-w-0">
-        {message.toolCalls?.some(t => t.status === 'running') && (
-          <div className="mb-1">
-            {message.toolCalls.filter(t => t.status === 'running').slice(0,1).map(tool => (
-              <ToolPill key={tool.id} tool={tool as any} />
-            ))}
+        {(executedTools.length > 0 || runningTools.length > 0) && (
+          <div className="mb-2">
+            {runningTools.length > 0 ? (
+              <p
+                className="text-xs tool-log__running"
+                style={{
+                  fontFamily: 'Poppins, sans-serif',
+                  margin: 0,
+                }}
+              >
+                Ejecutando tool{runningTools.length > 1 ? 's' : ''}...
+              </p>
+            ) : (
+              <button
+                type="button"
+                onClick={() => setShowToolLog(v => !v)}
+                className="text-xs"
+                style={{
+                  color: 'rgba(100,116,139,0.9)',
+                  fontFamily: 'Poppins, sans-serif',
+                  textDecoration: 'none',
+                }}
+              >
+                {`Tools ejecutadas (${executedTools.length}) ${showToolLog ? '▾' : '▸'}`}
+              </button>
+            )}
+            {showToolLog && runningTools.length === 0 && (
+              <div className="mt-1">
+                {executedTools.map((tool) => (
+                  <p
+                    key={`log-${tool.id}`}
+                    className="text-xs leading-relaxed"
+                    style={{ color: 'rgba(100,116,139,0.88)', fontFamily: 'Poppins, sans-serif' }}
+                  >
+                    {tool.name}
+                  </p>
+                ))}
+              </div>
+            )}
           </div>
         )}
 
