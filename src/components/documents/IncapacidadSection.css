@@ -5,13 +5,38 @@
   background: var(--mn-surface);
 }
 
+.incap-section__head {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.incap-section__toggle {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: var(--mn-text);
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.incap-section__toggle input {
+  width: 1.1rem;
+  height: 1.1rem;
+  accent-color: var(--mn-primary);
+}
+
 .incap-section h3 {
   margin: 0 0 0.25rem;
   font-size: 1rem;
 }
 
 .incap-section__hint {
-  margin: 0 0 1rem;
+  margin: 0;
   font-size: 0.82rem;
   color: var(--mn-text-muted);
 }

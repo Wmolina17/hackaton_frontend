@@ -1,4 +1,5 @@
 import type { DocumentBundle } from "@/types/documents";
+import { formatClinicalDate } from "@/services/clinicalDocuments";
 import { DocumentShell } from "./DocumentShell";
 import "./DocumentShell.css";
 
@@ -7,32 +8,28 @@ interface IncapacidadDocumentProps {
   documentId?: string;
 }
 
-function formatDate(iso: string): string {
-  return new Date(iso + "T12:00:00").toLocaleDateString("es-CO", {
-    dateStyle: "long",
-  });
-}
-
 export function IncapacidadDocument({
   bundle,
   documentId = "doc-incapacidad",
 }: IncapacidadDocumentProps) {
   const { paciente, medico, incapacidad, fechaEmision } = bundle;
+  if (!incapacidad) return null;
 
   return (
     <DocumentShell
-      title="Incapacidad Médica"
+      title="Certificado de Incapacidad Médica"
       medico={medico}
       fechaEmision={fechaEmision}
       documentId={documentId}
+      subtitle="Certificado laboral — Reposo médico"
     >
       <div className="doc-paciente-grid">
         <div>
-          <span>Paciente: </span>
+          <span>Paciente</span>
           <strong>{paciente.nombre}</strong>
         </div>
         <div>
-          <span>Documento: </span>
+          <span>Documento</span>
           <strong>{paciente.documento}</strong>
         </div>
       </div>
@@ -41,23 +38,26 @@ export function IncapacidadDocument({
         <div className="doc-field">
           <dt>Período de incapacidad</dt>
           <dd>
-            {formatDate(incapacidad.fechaInicio)} — {formatDate(incapacidad.fechaFin)}{" "}
-            <strong>({incapacidad.dias} días)</strong>
+            Desde <strong>{formatClinicalDate(incapacidad.fechaInicio)}</strong> hasta{" "}
+            <strong>{formatClinicalDate(incapacidad.fechaFin)}</strong>{" "}
+            (<strong>{incapacidad.dias} días calendario</strong>)
           </dd>
         </div>
         <div className="doc-field">
-          <dt>Diagnóstico</dt>
+          <dt>Diagnóstico que fundamenta la incapacidad</dt>
           <dd>{incapacidad.diagnostico}</dd>
         </div>
         <div className="doc-field">
-          <dt>Recomendaciones</dt>
+          <dt>Recomendaciones médicas durante el reposo</dt>
           <dd>{incapacidad.recomendaciones}</dd>
         </div>
       </dl>
 
-      <p style={{ fontSize: "0.82rem", color: "#64748b", marginTop: "1.5rem" }}>
-        Se expide la presente incapacidad médica conforme a la evaluación clínica
-        realizada. El paciente debe acatar las recomendaciones indicadas.
+      <p style={{ fontSize: "0.84rem", color: "#475569", marginTop: "1.5rem", lineHeight: 1.6 }}>
+        Por medio del presente certificado se deja constancia de que el paciente identificado
+        requiere reposo médico por el período indicado, conforme a la evaluación clínica
+        realizada. El paciente debe acatar las recomendaciones descritas y asistir a control
+        médico si los síntomas persisten o empeoran.
       </p>
     </DocumentShell>
   );

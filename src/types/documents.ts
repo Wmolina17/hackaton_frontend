@@ -40,7 +40,7 @@ export interface DocumentBundle {
   historial: HistorialClinico;
   medico: MedicoConfig;
   medicamentosOrden: MedicamentoOrden[];
-  incapacidad: IncapacidadDocumento;
+  incapacidad: IncapacidadDocumento | null;
   fechaEmision: string;
 }
 

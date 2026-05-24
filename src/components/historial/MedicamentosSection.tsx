@@ -89,9 +89,14 @@ export function MedicamentosSection({
                     {med.cubierto ? "Disponible" : "No disponible"}
                   </span>
                 </div>
-                {med.generico_alternativa && (
+                {med.generico_alternativa && !med.cubierto && (
                   <p className="meds-section__alt">
-                    Alternativa sugerida: {med.generico_alternativa}
+                    {med.generico_alternativa}
+                  </p>
+                )}
+                {(med.dosis || med.frecuencia) && (
+                  <p className="meds-section__dose">
+                    {[med.dosis, med.frecuencia].filter(Boolean).join(" · ")}
                   </p>
                 )}
                 {!disabled && onChange && (

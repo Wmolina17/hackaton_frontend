@@ -19,27 +19,29 @@ export function OrdenMedicaDocument({
       medico={medico}
       fechaEmision={fechaEmision}
       documentId={documentId}
+      subtitle="Prescripción médica — Formulario institucional"
     >
       <div className="doc-paciente-grid">
         <div>
-          <span>Paciente: </span>
+          <span>Paciente</span>
           <strong>{paciente.nombre}</strong>
         </div>
         <div>
-          <span>Documento: </span>
+          <span>Documento</span>
           <strong>{paciente.documento}</strong>
         </div>
       </div>
 
       {historial.diagnostico && (
         <div className="doc-field">
-          <dt>Diagnóstico</dt>
+          <dt>Diagnóstico asociado</dt>
           <dd>{historial.diagnostico}</dd>
         </div>
       )}
 
+      <h2 className="doc-section-title">Prescripción farmacológica</h2>
       {medicamentosOrden.length === 0 ? (
-        <p style={{ color: "#64748b" }}>Sin medicamentos prescritos.</p>
+        <p style={{ color: "#64748b" }}>No se registran medicamentos en esta orden.</p>
       ) : (
         <table className="doc-table">
           <thead>
@@ -48,13 +50,13 @@ export function OrdenMedicaDocument({
               <th>Dosis</th>
               <th>Frecuencia</th>
               <th>Duración</th>
-              <th>Observaciones</th>
+              <th>Indicaciones</th>
             </tr>
           </thead>
           <tbody>
             {medicamentosOrden.map((med) => (
               <tr key={med.nombre}>
-                <td>{med.nombre}</td>
+                <td><strong>{med.nombre}</strong></td>
                 <td>{med.dosis}</td>
                 <td>{med.frecuencia}</td>
                 <td>{med.duracion}</td>
@@ -66,8 +68,8 @@ export function OrdenMedicaDocument({
       )}
 
       {historial.plan && (
-        <div className="doc-field" style={{ marginTop: "1rem" }}>
-          <dt>Indicaciones generales</dt>
+        <div className="doc-field" style={{ marginTop: "1.25rem" }}>
+          <dt>Indicaciones generales y recomendaciones</dt>
           <dd>{historial.plan}</dd>
         </div>
       )}

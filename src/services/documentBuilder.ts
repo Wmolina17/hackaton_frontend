@@ -65,7 +65,8 @@ export function buildMedicamentosOrden(
     });
 }
 
-export function buildIncapacidad(historial: HistorialClinico): IncapacidadDocumento {
+export function buildIncapacidad(historial: HistorialClinico): IncapacidadDocumento | null {
+  if (!historial.requiere_incapacidad) return null;
   const dias = historial.incapacidad_dias ?? DEFAULT_INCAPACIDAD_DIAS;
   const fechaInicio = formatIsoDate();
   return {

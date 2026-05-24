@@ -1,6 +1,8 @@
-/** Utilidades de exportación — preparadas para integración con jsPDF / backend. */
+/** Utilidades de exportación de documentos clínicos. */
 
-export function printDocument(elementId: string): void {
+import { CLINICAL_DOCUMENT_PRINT_CSS } from "@/services/clinicalDocuments";
+
+export function printDocument(elementId: string, title = "Documento clínico"): void {
   const el = document.getElementById(elementId);
   if (!el) return;
 
@@ -12,21 +14,17 @@ export function printDocument(elementId: string): void {
 
   printWindow.document.write(`
     <!DOCTYPE html>
-    <html><head>
-      <title>Documento clínico</title>
-      <style>
-        body { font-family: "Segoe UI", system-ui, sans-serif; margin: 0; padding: 24px; color: #0f172a; }
-        @media print { body { padding: 0; } }
-      </style>
-    </head><body>${el.innerHTML}</body></html>
+    <html lang="es"><head>
+      <meta charset="UTF-8" />
+      <title>${title}</title>
+      <style>${CLINICAL_DOCUMENT_PRINT_CSS}</style>
+    </head><body>${el.outerHTML}</body></html>
   `);
   printWindow.document.close();
   printWindow.focus();
   printWindow.print();
 }
 
-/** Reservado: generación PDF real vía backend o jsPDF. */
 export async function exportPdfFromElement(_elementId: string): Promise<Blob | null> {
-  // TODO: integrar jsPDF o endpoint /documentos/pdf
   return null;
 }

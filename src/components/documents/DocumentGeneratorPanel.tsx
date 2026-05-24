@@ -1,8 +1,12 @@
 import { useMemo, useRef, useState } from "react";
 import { Button } from "@/components/ui/Button";
 import { buildDocumentBundle } from "@/services/documentBuilder";
+import {
+  CLINICAL_DOCUMENT_IDS,
+  CLINICAL_DOCUMENT_LABELS,
+  type ClinicalDocumentType,
+} from "@/services/clinicalDocuments";
 import { printDocument } from "@/services/documentExport";
-import type { DocumentBundle, DocumentType } from "@/types/documents";
 import type { HistorialClinico } from "@/types/historial";
 import type { MedicoConfig } from "@/types/documents";
 import { HistoriaClinicaDocument } from "@/templates/HistoriaClinicaDocument";
@@ -16,32 +20,30 @@ interface DocumentGeneratorPanelProps {
   pacienteId?: string;
 }
 
-const DOC_LABELS: Record<DocumentType, string> = {
-  historia: "Historia Clínica",
-  orden: "Orden Médica",
-  incapacidad: "Incapacidad",
-};
-
-const DOC_IDS: Record<DocumentType, string> = {
-  historia: "doc-historia-clinica",
-  orden: "doc-orden-medica",
-  incapacidad: "doc-incapacidad",
-};
-
 export function DocumentGeneratorPanel({
   historial,
   medico,
   pacienteId,
 }: DocumentGeneratorPanelProps) {
-  const [activeDoc, setActiveDoc] = useState<DocumentType>("historia");
+  const availableDocs = useMemo(() => {
+    const docs: ClinicalDocumentType[] = ["historia", "orden"];
+    if (historial.requiere_incapacidad && historial.incapacidad_dias) {
+      docs.push("incapacidad");
+    }
+    return docs;
+  }, [historial.requiere_incapacidad, historial.incapacidad_dias]);
+
+  const [activeDoc, setActiveDoc] = useState<ClinicalDocumentType>("historia");
   const previewRef = useRef<HTMLDivElement>(null);
 
-  const bundle: DocumentBundle = useMemo(
+  const bundle = useMemo(
     () => buildDocumentBundle(historial, medico, pacienteId),
     [historial, medico, pacienteId]
   );
 
-  function handleGenerate(type: DocumentType) {
+  const safeActiveDoc = availableDocs.includes(activeDoc) ? activeDoc : availableDocs[0];
+
+  function handleGenerate(type: ClinicalDocumentType) {
     setActiveDoc(type);
     requestAnimationFrame(() => {
       previewRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
@@ -49,7 +51,7 @@ export function DocumentGeneratorPanel({
   }
 
   function handlePrint() {
-    printDocument(DOC_IDS[activeDoc]);
+    printDocument(CLINICAL_DOCUMENT_IDS[safeActiveDoc], CLINICAL_DOCUMENT_LABELS[safeActiveDoc]);
   }
 
   return (
@@ -58,21 +60,20 @@ export function DocumentGeneratorPanel({
         <div>
           <h3 id="doc-gen-heading">Documentos clínicos</h3>
           <p>
-            Se generan automáticamente con la información del historial. Se actualizan
-            en tiempo real al editar.
+            Formato profesional institucional. Se actualizan en tiempo real al editar el historial.
           </p>
         </div>
       </div>
 
       <div className="doc-generator__actions">
-        {(Object.keys(DOC_LABELS) as DocumentType[]).map((type) => (
+        {availableDocs.map((type) => (
           <Button
             key={type}
-            variant={activeDoc === type ? "primary" : "secondary"}
+            variant={safeActiveDoc === type ? "primary" : "secondary"}
             type="button"
             onClick={() => handleGenerate(type)}
           >
-            Generar {DOC_LABELS[type]}
+            {CLINICAL_DOCUMENT_LABELS[type]}
           </Button>
         ))}
         <Button variant="secondary" type="button" onClick={handlePrint}>
@@ -81,29 +82,29 @@ export function DocumentGeneratorPanel({
       </div>
 
       <div className="doc-generator__tabs" role="tablist">
-        {(Object.keys(DOC_LABELS) as DocumentType[]).map((type) => (
+        {availableDocs.map((type) => (
           <button
             key={type}
             type="button"
             role="tab"
-            aria-selected={activeDoc === type}
-            className={`doc-generator__tab ${activeDoc === type ? "doc-generator__tab--active" : ""}`}
+            aria-selected={safeActiveDoc === type}
+            className={`doc-generator__tab ${safeActiveDoc === type ? "doc-generator__tab--active" : ""}`}
             onClick={() => setActiveDoc(type)}
           >
-            {DOC_LABELS[type]}
+            {CLINICAL_DOCUMENT_LABELS[type]}
           </button>
         ))}
       </div>
 
       <div ref={previewRef} className="doc-generator__preview">
-        {activeDoc === "historia" && (
-          <HistoriaClinicaDocument bundle={bundle} documentId={DOC_IDS.historia} />
+        {safeActiveDoc === "historia" && (
+          <HistoriaClinicaDocument bundle={bundle} documentId={CLINICAL_DOCUMENT_IDS.historia} />
         )}
-        {activeDoc === "orden" && (
-          <OrdenMedicaDocument bundle={bundle} documentId={DOC_IDS.orden} />
+        {safeActiveDoc === "orden" && (
+          <OrdenMedicaDocument bundle={bundle} documentId={CLINICAL_DOCUMENT_IDS.orden} />
         )}
-        {activeDoc === "incapacidad" && (
-          <IncapacidadDocument bundle={bundle} documentId={DOC_IDS.incapacidad} />
+        {safeActiveDoc === "incapacidad" && bundle.incapacidad && (
+          <IncapacidadDocument bundle={bundle} documentId={CLINICAL_DOCUMENT_IDS.incapacidad} />
         )}
       </div>
     </section>

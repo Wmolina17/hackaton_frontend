@@ -116,7 +116,7 @@ export function PacienteDetallePage() {
               <Link
                 to={`/historial/consulta/${c.historial_id}?paciente=${pacienteId}`}
               >
-                <Button variant="secondary">Ver detalle</Button>
+                <Button>{c.estado === "terminada" ? "Ver documento" : "Ver detalle"}</Button>
               </Link>
             </li>
           ))}

@@ -24,6 +24,7 @@ export interface HistorialClinico {
   paciente_fecha_nacimiento?: string;
   incapacidad_dias?: number;
   incapacidad_recomendaciones?: string;
+  requiere_incapacidad?: boolean;
 }
 
 export interface MedicamentoCobertura {

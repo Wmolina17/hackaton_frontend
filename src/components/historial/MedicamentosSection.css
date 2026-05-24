@@ -93,9 +93,17 @@
 }
 
 .meds-section__alt {
-  margin: 0;
+  margin: 0.35rem 0 0;
   font-size: 0.82rem;
   color: var(--mn-text-muted);
+  line-height: 1.45;
+}
+
+.meds-section__dose {
+  margin: 0.25rem 0 0;
+  font-size: 0.82rem;
+  color: var(--mn-primary);
+  font-weight: 500;
 }
 
 .meds-section__remove {
