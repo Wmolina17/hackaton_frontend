@@ -1,12 +1,18 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { Link, useParams, useSearchParams } from "react-router-dom";
 import { historialesApi } from "@/api/historiales";
 import { medicamentosApi } from "@/api/medicamentos";
+import { DocumentGeneratorPanel } from "@/components/documents/DocumentGeneratorPanel";
+import { IncapacidadSection } from "@/components/documents/IncapacidadSection";
+import { MedicoConfigPanel } from "@/components/documents/MedicoConfigPanel";
+import { SignaturePad } from "@/components/documents/SignaturePad";
 import { HistorialEditor } from "@/components/historial/HistorialEditor";
 import { MedicamentosSection } from "@/components/historial/MedicamentosSection";
 import { Button } from "@/components/ui/Button";
 import { Toast } from "@/components/ui/Toast";
+import { useMedicoConfig } from "@/hooks/useMedicoConfig";
 import { createEmptyHistorial, type HistorialClinico } from "@/types/historial";
+import { CONSULT_STORAGE_KEYS } from "@/types/consult";
 import {
   extractNombresMedicamentos,
   mergeMedicamentosWithCobertura,
@@ -26,10 +32,17 @@ function resolveEps(
   );
 }
 
+function resolvePacienteId(): string {
+  return sessionStorage.getItem(CONSULT_STORAGE_KEYS.pacienteId) ?? "pac-001";
+}
+
 export function HistorialEditorPage() {
   const { id } = useParams();
   const [searchParams] = useSearchParams();
   const historialId = id ?? "1";
+  const pacienteId = resolvePacienteId();
+
+  const { config: medicoConfig, updateConfig, hasSignature } = useMedicoConfig();
 
   const [historial, setHistorial] = useState<HistorialClinico>(createEmptyHistorial());
   const [eps, setEps] = useState("Sura");
@@ -41,24 +54,27 @@ export function HistorialEditorPage() {
     type: "info" | "success" | "error";
   }>({ message: "", type: "info" });
 
-  async function refreshCobertura(
-    meds: HistorialClinico["medicamentos"],
-    epsValue: string
-  ) {
-    const nombres = extractNombresMedicamentos(meds);
-    if (!nombres.length) return meds;
+  const coberturaTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const skipCoberturaEffect = useRef(true);
 
-    setLoadingCobertura(true);
-    const { data, error } = await medicamentosApi.cobertura(epsValue, nombres);
-    setLoadingCobertura(false);
+  const refreshCobertura = useCallback(
+    async (meds: HistorialClinico["medicamentos"], epsValue: string) => {
+      const nombres = extractNombresMedicamentos(meds);
+      if (!nombres.length) return meds;
 
-    if (error) {
-      setToast({ message: error, type: "error" });
-      return meds;
-    }
+      setLoadingCobertura(true);
+      const { data, error } = await medicamentosApi.cobertura(epsValue, nombres);
+      setLoadingCobertura(false);
 
-    return mergeMedicamentosWithCobertura(meds, data ?? []);
-  }
+      if (error) {
+        setToast({ message: error, type: "error" });
+        return meds;
+      }
+
+      return mergeMedicamentosWithCobertura(meds, data ?? []);
+    },
+    []
+  );
 
   useEffect(() => {
     let active = true;
@@ -88,28 +104,46 @@ export function HistorialEditorPage() {
     return () => {
       active = false;
     };
-  }, [historialId, searchParams]);
+  }, [historialId, searchParams, refreshCobertura]);
 
-  async function guardar() {
+  const medicamentosKey = historial.medicamentos
+    ?.map((m) => m.nombre.trim())
+    .join("|");
+
+  useEffect(() => {
+    if (loading || historial.firmado) return;
+    if (skipCoberturaEffect.current) {
+      skipCoberturaEffect.current = false;
+      return;
+    }
+
+    if (coberturaTimer.current) clearTimeout(coberturaTimer.current);
+
+    coberturaTimer.current = setTimeout(() => {
+      void (async () => {
+        const meds = await refreshCobertura(historial.medicamentos ?? [], eps);
+        setHistorial((prev) => ({ ...prev, medicamentos: meds, paciente_eps: eps }));
+      })();
+    }, 600);
+
+    return () => {
+      if (coberturaTimer.current) clearTimeout(coberturaTimer.current);
+    };
+  }, [medicamentosKey, eps, loading, historial.firmado, refreshCobertura]);
+
+  async function firmarYEnviar() {
+    if (!hasSignature) {
+      setToast({
+        message: "Debes guardar tu firma digital antes de enviar",
+        type: "error",
+      });
+      return;
+    }
+
     setSaving(true);
-    const payload = { ...historial, paciente_eps: eps };
-    const { error } = await historialesApi.update(historialId, payload);
-    setSaving(false);
-    setToast({
-      message: error ? error : "Historial guardado",
-      type: error ? "error" : "success",
-    });
-  }
-
-  async function handleRefreshCobertura() {
     const meds = await refreshCobertura(historial.medicamentos ?? [], eps);
-    setHistorial((prev) => ({ ...prev, medicamentos: meds, paciente_eps: eps }));
-    setToast({ message: "Disponibilidad actualizada", type: "success" });
-  }
+    const payload = { ...historial, medicamentos: meds, paciente_eps: eps };
 
-  async function firmarYDescargar() {
-    setSaving(true);
-    const payload = { ...historial, paciente_eps: eps };
     const { error: errSave } = await historialesApi.update(historialId, payload);
     if (errSave) {
       setSaving(false);
@@ -124,24 +158,19 @@ export function HistorialEditorPage() {
       return;
     }
 
-    const { data: blob, error: errPdf } =
-      await historialesApi.downloadPdf(historialId);
+    const { error: errEnviar } = await historialesApi.enviarPaciente(historialId);
     setSaving(false);
 
-    if (errPdf || !blob) {
-      setToast({ message: errPdf ?? "Error al descargar PDF", type: "error" });
+    if (errEnviar) {
+      setToast({ message: errEnviar, type: "error" });
       return;
     }
 
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = `historial-${historialId}.pdf`;
-    a.click();
-    URL.revokeObjectURL(url);
-
-    setHistorial((h) => ({ ...h, firmado: true }));
-    setToast({ message: "Historial firmado y PDF descargado", type: "success" });
+    setHistorial({ ...payload, firmado: true });
+    setToast({
+      message: "Historial firmado, documentos generados y enviados al paciente",
+      type: "success",
+    });
   }
 
   if (loading) {
@@ -155,45 +184,74 @@ export function HistorialEditorPage() {
   const readonly = historial.firmado;
 
   return (
-    <div className="mn-page historial-page">
+    <div className="mn-page historial-page historial-page--wide">
       <header className="historial-page__hero">
         <div className="mn-page__hero">
           <h2>Revisión del historial #{historialId}</h2>
           <p>
-            Documento formateado devuelto por el backend tras la consulta. Edita,
-            confirma y descarga el PDF.
+            Revisa la información clínica, configura tus datos profesionales, firma
+            digitalmente y genera los documentos para el paciente.
           </p>
         </div>
-        {readonly && <span className="historial-page__badge">Firmado</span>}
+        {readonly && <span className="historial-page__badge">Enviado</span>}
       </header>
 
       <Link to="/historial" className="historial-page__back">
         ← Volver a pacientes
       </Link>
 
-      <div className="mn-panel">
-        <HistorialEditor
-          historial={historial}
-          onChange={setHistorial}
-          disabled={readonly}
-        />
+      <div className="historial-page__grid">
+        <div className="historial-page__editor-col">
+          <div className="mn-panel">
+            <HistorialEditor
+              historial={historial}
+              onChange={setHistorial}
+              disabled={readonly}
+            />
+          </div>
+
+          <MedicamentosSection
+            medicamentos={historial.medicamentos ?? []}
+            onChange={
+              readonly
+                ? undefined
+                : (meds) => setHistorial((prev) => ({ ...prev, medicamentos: meds }))
+            }
+            loadingCobertura={loadingCobertura}
+            disabled={readonly}
+          />
+
+          <IncapacidadSection
+            historial={historial}
+            onChange={setHistorial}
+            disabled={readonly}
+          />
+        </div>
+
+        <div className="historial-page__config-col">
+          <MedicoConfigPanel
+            config={medicoConfig}
+            onChange={updateConfig}
+            disabled={readonly}
+          />
+
+          <SignaturePad
+            savedDataUrl={medicoConfig.firmaDataUrl}
+            onSave={(dataUrl) => updateConfig({ firmaDataUrl: dataUrl })}
+            disabled={readonly}
+          />
+        </div>
       </div>
 
-      <MedicamentosSection
-        medicamentos={historial.medicamentos ?? []}
-        eps={eps}
-        onChange={(meds) => setHistorial((prev) => ({ ...prev, medicamentos: meds }))}
-        onRefreshCobertura={() => void handleRefreshCobertura()}
-        loadingCobertura={loadingCobertura}
-        disabled={readonly}
+      <DocumentGeneratorPanel
+        historial={historial}
+        medico={medicoConfig}
+        pacienteId={pacienteId}
       />
 
-      <footer className="mn-footer-actions">
-        <Button variant="secondary" onClick={() => void guardar()} disabled={readonly || saving}>
-          Guardar borrador
-        </Button>
-        <Button onClick={() => void firmarYDescargar()} disabled={readonly || saving}>
-          {saving ? "Procesando…" : "Firmar y descargar PDF"}
+      <footer className="mn-footer-actions historial-page__footer">
+        <Button onClick={() => void firmarYEnviar()} disabled={readonly || saving}>
+          {saving ? "Enviando…" : "Firmar y enviar al paciente"}
         </Button>
       </footer>
 

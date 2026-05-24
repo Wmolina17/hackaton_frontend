@@ -2,12 +2,22 @@ import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { pacientesListApi } from "@/api/pacientes";
 import { Button } from "@/components/ui/Button";
+import { Toast } from "@/components/ui/Toast";
 import type { PacienteDetalle } from "@/types/pacientes";
 import "./PacienteDetallePage.css";
 
 interface PacienteDetallePageProps {
   pacienteIdOverride?: string;
   isOwnHistory?: boolean;
+}
+
+function downloadBlob(blob: Blob, filename: string) {
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = filename;
+  a.click();
+  URL.revokeObjectURL(url);
 }
 
 export function PacienteDetallePage({
@@ -18,6 +28,11 @@ export function PacienteDetallePage({
   const pacienteId = pacienteIdOverride ?? routeId;
   const [paciente, setPaciente] = useState<PacienteDetalle | null>(null);
   const [loading, setLoading] = useState(true);
+  const [downloadingPdf, setDownloadingPdf] = useState(false);
+  const [toast, setToast] = useState<{
+    message: string;
+    type: "info" | "success" | "error";
+  }>({ message: "", type: "info" });
 
   useEffect(() => {
     if (!pacienteId) return;
@@ -28,6 +43,22 @@ export function PacienteDetallePage({
       setLoading(false);
     })();
   }, [pacienteId]);
+
+  async function descargarHistorialPdf() {
+    if (!pacienteId || !paciente) return;
+    setDownloadingPdf(true);
+    const { data: blob, error } = await pacientesListApi.downloadHistorialPdf(pacienteId);
+    setDownloadingPdf(false);
+
+    if (error || !blob) {
+      setToast({ message: error ?? "No se pudo generar el PDF", type: "error" });
+      return;
+    }
+
+    const slug = paciente.documento || pacienteId;
+    downloadBlob(blob, `historial-clinico-${slug}.pdf`);
+    setToast({ message: "PDF descargado", type: "success" });
+  }
 
   if (loading) {
     return <p className="paciente-detalle__loading">Cargando historial…</p>;
@@ -47,7 +78,7 @@ export function PacienteDetallePage({
 
       <header className="paciente-detalle__header mn-panel">
         <span className="paciente-detalle__avatar">{paciente.nombre.charAt(0)}</span>
-        <div>
+        <div className="paciente-detalle__header-info">
           <h2>{isOwnHistory ? "Mi historial clínico" : paciente.nombre}</h2>
           <p>
             CC {paciente.documento}
@@ -57,6 +88,13 @@ export function PacienteDetallePage({
             {paciente.total_consultas} consultas registradas
           </p>
         </div>
+        <Button
+          variant="secondary"
+          onClick={() => void descargarHistorialPdf()}
+          disabled={downloadingPdf}
+        >
+          {downloadingPdf ? "Generando PDF…" : "Descargar historial (PDF)"}
+        </Button>
       </header>
 
       <section>
@@ -76,13 +114,19 @@ export function PacienteDetallePage({
               </div>
               {!isOwnHistory && (
                 <Link to={`/historial/editar/${c.historial_id}`}>
-                  <Button variant="secondary">Ver detalle</Button>
+                  <Button variant="secondary">Revisar y firmar</Button>
                 </Link>
               )}
             </li>
           ))}
         </ul>
       </section>
+
+      <Toast
+        message={toast.message}
+        type={toast.type}
+        onClose={() => setToast({ message: "", type: "info" })}
+      />
     </div>
   );
 }

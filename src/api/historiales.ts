@@ -13,6 +13,10 @@ export const historialesApi = {
     httpRequest<HistorialClinico>(`/historiales/${id}/firmar`, {
       method: "POST",
     }),
+  enviarPaciente: (id: string | number) =>
+    httpRequest<{ ok: boolean }>(`/historiales/${id}/enviar`, {
+      method: "POST",
+    }),
   downloadPdf: (id: string | number) =>
     httpRequest<Blob>(`/historiales/${id}/pdf`),
 };

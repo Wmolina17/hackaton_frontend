@@ -6,6 +6,8 @@ export const pacientesListApi = {
   list: () => httpRequest<PacienteResumen[]>("/pacientes"),
   get: (id: string) => httpRequest<PacienteDetalle>(`/pacientes/${id}`),
   monitor: (id: string) => httpRequest<unknown>(`/pacientes/${id}/monitor`),
+  downloadHistorialPdf: (id: string) =>
+    httpRequest<Blob>(`/pacientes/${id}/historial-pdf`),
 };
 
 export const pacientesApi = {

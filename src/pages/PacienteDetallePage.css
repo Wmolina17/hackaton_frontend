@@ -19,6 +19,12 @@
   display: flex;
   gap: 1.25rem;
   align-items: center;
+  flex-wrap: wrap;
+}
+
+.paciente-detalle__header-info {
+  flex: 1;
+  min-width: 200px;
 }
 
 .paciente-detalle__avatar {

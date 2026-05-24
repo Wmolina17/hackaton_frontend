@@ -3,6 +3,34 @@
   margin: 0 auto;
 }
 
+.historial-page--wide {
+  max-width: 1100px;
+}
+
+.historial-page__grid {
+  display: grid;
+  grid-template-columns: 1fr 340px;
+  gap: 1rem;
+  align-items: start;
+}
+
+@media (max-width: 900px) {
+  .historial-page__grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.historial-page__editor-col,
+.historial-page__config-col {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.historial-page__footer {
+  margin-top: 0.5rem;
+}
+
 .historial-page__hero {
   display: flex;
   flex-wrap: wrap;

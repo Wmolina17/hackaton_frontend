@@ -1,12 +1,9 @@
-import { Button } from "@/components/ui/Button";
 import type { MedicamentoHistorial } from "@/types/historial";
 import "./MedicamentosSection.css";
 
 interface MedicamentosSectionProps {
   medicamentos: MedicamentoHistorial[];
-  eps: string;
-  onChange: (meds: MedicamentoHistorial[]) => void;
-  onRefreshCobertura?: () => void;
+  onChange?: (meds: MedicamentoHistorial[]) => void;
   loadingCobertura?: boolean;
   disabled?: boolean;
 }
@@ -14,48 +11,52 @@ interface MedicamentosSectionProps {
 export function MedicamentosSection({
   medicamentos,
   onChange,
-  onRefreshCobertura,
   loadingCobertura,
   disabled,
 }: MedicamentosSectionProps) {
-  function updateMed(index: number, field: keyof MedicamentoHistorial, value: string | boolean) {
+  function updateNombre(index: number, value: string) {
+    if (!onChange) return;
     const next = medicamentos.map((m, i) =>
-      i === index ? { ...m, [field]: value } : m
+      i === index ? { ...m, nombre: value } : m
     );
     onChange(next);
+  }
+
+  function addMedicamento() {
+    if (!onChange) return;
+    onChange([
+      ...medicamentos,
+      { nombre: "", cubierto: false, generico_alternativa: "" },
+    ]);
+  }
+
+  function removeMedicamento(index: number) {
+    if (!onChange) return;
+    onChange(medicamentos.filter((_, i) => i !== index));
   }
 
   return (
     <section className="meds-section" aria-labelledby="meds-heading">
       <div className="meds-section__head">
-        <h3 id="meds-heading">Medicamentos sugeridos</h3>
-        {!disabled && onRefreshCobertura && (
-          <Button
-            variant="secondary"
-            type="button"
-            disabled={loadingCobertura}
-            onClick={onRefreshCobertura}
-          >
-            {loadingCobertura ? "Verificando…" : "Verificar disponibilidad"}
-          </Button>
+        <div>
+          <h3 id="meds-heading">Medicamentos propuestos</h3>
+          <p className="meds-section__hint">
+            La disponibilidad la determina el sistema al revisar cada medicamento.
+          </p>
+        </div>
+        {loadingCobertura && (
+          <span className="meds-section__checking" role="status">
+            Verificando…
+          </span>
         )}
       </div>
 
       {!medicamentos.length ? (
         <>
           <p className="meds-section__empty">Sin medicamentos registrados.</p>
-          {!disabled && (
-            <button
-              type="button"
-              className="meds-section__add"
-              onClick={() =>
-                onChange([
-                  ...medicamentos,
-                  { nombre: "", cubierto: true, generico_alternativa: "" },
-                ])
-              }
-            >
-              + Agregar medicamento
+          {!disabled && onChange && (
+            <button type="button" className="meds-section__add" onClick={addMedicamento}>
+              + Proponer medicamento
             </button>
           )}
         </>
@@ -65,7 +66,19 @@ export function MedicamentosSection({
             {medicamentos.map((med, i) => (
               <li key={i} className="meds-section__card">
                 <div className="meds-section__card-head">
-                  <strong>{med.nombre || `Medicamento ${i + 1}`}</strong>
+                  {!disabled && onChange ? (
+                    <label className="meds-section__name-field">
+                      <span className="sr-only">Nombre del medicamento</span>
+                      <input
+                        type="text"
+                        value={med.nombre}
+                        onChange={(e) => updateNombre(i, e.target.value)}
+                        placeholder="Nombre del medicamento"
+                      />
+                    </label>
+                  ) : (
+                    <strong>{med.nombre || `Medicamento ${i + 1}`}</strong>
+                  )}
                   <span
                     className={
                       med.cubierto
@@ -73,56 +86,29 @@ export function MedicamentosSection({
                         : "meds-section__tag"
                     }
                   >
-                    {med.cubierto ? "Cubierto" : "No cubierto"}
+                    {med.cubierto ? "Disponible" : "No disponible"}
                   </span>
                 </div>
-                {!disabled && (
-                  <>
-                    <label>
-                      Nombre
-                      <input
-                        type="text"
-                        value={med.nombre}
-                        onChange={(e) => updateMed(i, "nombre", e.target.value)}
-                      />
-                    </label>
-                    <label className="meds-section__check">
-                      <input
-                        type="checkbox"
-                        checked={med.cubierto}
-                        onChange={(e) =>
-                          updateMed(i, "cubierto", e.target.checked)
-                        }
-                      />
-                      Disponible en formulación
-                    </label>
-                    <label>
-                      Alternativa genérica
-                      <input
-                        type="text"
-                        value={med.generico_alternativa ?? ""}
-                        onChange={(e) =>
-                          updateMed(i, "generico_alternativa", e.target.value)
-                        }
-                      />
-                    </label>
-                  </>
+                {med.generico_alternativa && (
+                  <p className="meds-section__alt">
+                    Alternativa sugerida: {med.generico_alternativa}
+                  </p>
+                )}
+                {!disabled && onChange && (
+                  <button
+                    type="button"
+                    className="meds-section__remove"
+                    onClick={() => removeMedicamento(i)}
+                  >
+                    Quitar
+                  </button>
                 )}
               </li>
             ))}
           </ul>
-          {!disabled && (
-            <button
-              type="button"
-              className="meds-section__add"
-              onClick={() =>
-                onChange([
-                  ...medicamentos,
-                  { nombre: "", cubierto: true, generico_alternativa: "" },
-                ])
-              }
-            >
-              + Agregar medicamento
+          {!disabled && onChange && (
+            <button type="button" className="meds-section__add" onClick={addMedicamento}>
+              + Proponer medicamento
             </button>
           )}
         </>

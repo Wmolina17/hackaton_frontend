@@ -46,7 +46,12 @@ export function getMockHistorial(id: number): HistorialClinico {
       sintomas: ["Cefalea", "Fiebre 38.2°C", "Malestar general"],
       diagnostico: "Cuadro viral respiratorio alto",
       plan: "Reposo, hidratación, control en 48 h si persiste fiebre",
+      alergias: "Ninguna conocida",
+      notas_adicionales: "Paciente orientada, signos vitales estables al egreso.",
       paciente_eps: "Sura",
+      paciente_nombre: "María García López",
+      paciente_documento: "1023456789",
+      incapacidad_dias: 3,
       medicamentos: [
         {
           nombre: "Acetaminofén 500 mg",

@@ -90,17 +90,27 @@ export function HistorialEditor({
         />
       </label>
 
-      {historial.alergias !== undefined && (
-        <label>
-          Alergias
-          <input
-            type="text"
-            value={historial.alergias}
-            onChange={(e) => update("alergias", e.target.value)}
-            disabled={disabled}
-          />
-        </label>
-      )}
+      <label>
+        Alergias
+        <input
+          type="text"
+          value={historial.alergias ?? ""}
+          onChange={(e) => update("alergias", e.target.value)}
+          disabled={disabled}
+          placeholder="Ninguna conocida"
+        />
+      </label>
+
+      <label>
+        Observaciones adicionales
+        <textarea
+          value={historial.notas_adicionales ?? ""}
+          onChange={(e) => update("notas_adicionales", e.target.value)}
+          rows={2}
+          disabled={disabled}
+          placeholder="Notas clínicas complementarias"
+        />
+      </label>
     </div>
   );
 }

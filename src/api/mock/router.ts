@@ -133,6 +133,30 @@ export async function mockRequest<T>(
     return { data: detalle as T, error: null };
   }
 
+  const pacientePdfMatch = path.match(/^\/pacientes\/([^/]+)\/historial-pdf$/);
+  if (pacientePdfMatch) {
+    const detalle = getPacienteDetalle(pacientePdfMatch[1]);
+    if (!detalle) return { data: null, error: "Paciente no encontrado" };
+    const lines = [
+      `HISTORIAL CLÍNICO CONSOLIDADO`,
+      `Paciente: ${detalle.nombre}`,
+      `Documento: ${detalle.documento}`,
+      `Total consultas: ${detalle.total_consultas}`,
+      ``,
+      `--- CONSULTAS ---`,
+      ...detalle.consultas.map(
+        (c, i) =>
+          `\n${i + 1}. ${new Date(c.fecha).toLocaleString("es-CO")}\n   Médico: ${c.medico_nombre}\n   Diagnóstico: ${c.diagnostico}\n   Estado: ${c.estado}`
+      ),
+      ``,
+      `Generado por MediNote · ${new Date().toLocaleString("es-CO")}`,
+    ];
+    return {
+      data: new Blob([lines.join("\n")], { type: "application/pdf" }) as T,
+      error: null,
+    };
+  }
+
   if (path.startsWith("/citas/calendario")) {
     const url = new URL(path, "http://local");
     const medicoId = url.searchParams.get("medico_id");
@@ -285,6 +309,15 @@ export async function mockRequest<T>(
     const current = getMockHistorial(hid);
     current.firmado = true;
     return { data: { ...current, firmado: true } as T, error: null };
+  }
+
+  const enviarMatch = path.match(/^\/historiales\/(\d+)\/enviar$/);
+  if (enviarMatch && options.method === "POST") {
+    const hid = Number(enviarMatch[1]);
+    const current = getMockHistorial(hid);
+    current.firmado = true;
+    saveMockHistorial(hid, current);
+    return { data: { ok: true } as T, error: null };
   }
 
   const pdfMatch = path.match(/^\/historiales\/(\d+)\/pdf$/);
