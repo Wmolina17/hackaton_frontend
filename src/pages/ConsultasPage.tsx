@@ -51,12 +51,15 @@ export function ConsultasPage() {
 
   useEffect(() => {
     if (!user?.medicoId) return;
-    void (async () => {
+    const loadCitas = async () => {
       setLoading(true);
       const { data } = await citasCalendarioApi.list(user.medicoId);
       setCitas(data ?? []);
       setLoading(false);
-    })();
+    };
+    void loadCitas();
+    window.addEventListener("medinote:appointment-created", loadCitas);
+    return () => window.removeEventListener("medinote:appointment-created", loadCitas);
   }, [user?.medicoId]);
 
   const weekCitas = useMemo(() => {

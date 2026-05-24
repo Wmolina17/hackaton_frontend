@@ -5,6 +5,7 @@ import type { PacienteDetalle, PacienteResumen } from "@/types/pacientes";
 export const pacientesListApi = {
   list: () => httpRequest<PacienteResumen[]>("/pacientes"),
   get: (id: string) => httpRequest<PacienteDetalle>(`/pacientes/${id}`),
+  monitor: (id: string) => httpRequest<unknown>(`/pacientes/${id}/monitor`),
 };
 
 export const pacientesApi = {

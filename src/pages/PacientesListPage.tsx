@@ -10,12 +10,19 @@ export function PacientesListPage() {
   const [query, setQuery] = useState("");
 
   useEffect(() => {
-    void (async () => {
+    const loadPacientes = async () => {
       const { data, error } = await pacientesListApi.list();
       if (data) setPacientes(data);
       if (error) console.error(error);
       setLoading(false);
-    })();
+    };
+    void loadPacientes();
+    window.addEventListener("medinote:patient-created", loadPacientes);
+    window.addEventListener("medinote:patient-monitored", loadPacientes);
+    return () => {
+      window.removeEventListener("medinote:patient-created", loadPacientes);
+      window.removeEventListener("medinote:patient-monitored", loadPacientes);
+    };
   }, []);
 
   const filtered = pacientes.filter(

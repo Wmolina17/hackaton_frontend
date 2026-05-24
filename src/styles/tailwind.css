@@ -1,0 +1,129 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ── Mini preflight scoped al chat ─────────────────
+   Reproduce el reset de Tailwind solo dentro de .medinote-chat
+   para que el chat se vea idéntico al chatbot original
+   sin afectar al resto del hackaton. */
+.medinote-chat,
+.medinote-chat *,
+.medinote-chat *::before,
+.medinote-chat *::after {
+  box-sizing: border-box;
+  border-width: 0;
+  border-style: solid;
+  border-color: #e2e8f0;
+}
+
+.medinote-chat h1,
+.medinote-chat h2,
+.medinote-chat h3,
+.medinote-chat h4,
+.medinote-chat h5,
+.medinote-chat h6,
+.medinote-chat p {
+  margin: 0;
+  font-size: inherit;
+  font-weight: inherit;
+}
+
+.medinote-chat button {
+  background-color: transparent;
+  background-image: none;
+  padding: 0;
+  font-family: inherit;
+  font-size: 100%;
+  font-weight: inherit;
+  line-height: inherit;
+  color: inherit;
+  margin: 0;
+  cursor: pointer;
+  text-transform: none;
+  -webkit-appearance: button;
+  appearance: button;
+  border: 0;
+}
+
+.medinote-chat button:disabled {
+  cursor: not-allowed;
+}
+
+.medinote-chat input,
+.medinote-chat textarea {
+  font-family: inherit;
+  font-size: 100%;
+  line-height: inherit;
+  color: inherit;
+  margin: 0;
+  padding: 0;
+  background: transparent;
+}
+
+.medinote-chat svg {
+  display: block;
+  vertical-align: middle;
+}
+
+.medinote-chat ol,
+.medinote-chat ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.medinote-chat a {
+  color: inherit;
+  text-decoration: inherit;
+}
+
+.medinote-chat img,
+.medinote-chat video {
+  max-width: 100%;
+  height: auto;
+}
+
+/* Animaciones del chat (ex chatbot2/frontend/index.css) */
+
+.cascade-word {
+  display: inline;
+  opacity: 0;
+  animation: cascadeFadeIn 0.35s ease-out forwards;
+}
+
+@keyframes cascadeFadeIn {
+  from { opacity: 0; transform: translateY(4px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.custom-scrollbar::-webkit-scrollbar { width: 5px; }
+.custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
+.custom-scrollbar::-webkit-scrollbar-thumb { background: rgba(100,116,139,0.3); border-radius: 3px; }
+.custom-scrollbar::-webkit-scrollbar-thumb:hover { background: rgba(100,116,139,0.5); }
+
+.hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+.hide-scrollbar::-webkit-scrollbar { display: none; }
+
+@keyframes toolSlideIn {
+  from { opacity: 0; transform: translateX(-8px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+.tool-pill {
+  animation: toolSlideIn 0.3s ease-out forwards;
+}
+
+@keyframes recordPulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(239,68,68,0.5); }
+  50%       { box-shadow: 0 0 0 8px rgba(239,68,68,0); }
+}
+.record-pulse { animation: recordPulse 1.2s ease-in-out infinite; }
+
+/* Scope textarea reset solo dentro del chat panel */
+.medinote-chat textarea {
+  font-family: 'Poppins', sans-serif;
+  resize: none;
+  outline: none;
+  border: none;
+  background: transparent;
+}
+.medinote-chat textarea:focus { outline: none; box-shadow: none; }

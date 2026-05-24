@@ -26,6 +26,6 @@
   --mn-radius-pill: 9999px;
   --mn-shadow: 0 1px 3px rgba(15, 23, 42, 0.06), 0 8px 24px rgba(15, 23, 42, 0.06);
   --mn-shadow-lg: 0 4px 6px rgba(15, 23, 42, 0.04), 0 20px 48px rgba(15, 23, 42, 0.08);
-  --mn-font: "Segoe UI", system-ui, -apple-system, sans-serif;
+  --mn-font: "Poppins", "Segoe UI", system-ui, -apple-system, sans-serif;
   --mn-grid-line: rgba(99, 102, 241, 0.06);
 }
