@@ -1,0 +1,114 @@
+.radicado-panel {
+  padding: 1.25rem;
+  border: 1px solid var(--mn-border);
+  border-radius: var(--mn-radius);
+  background: var(--mn-surface);
+  box-shadow: var(--mn-shadow);
+}
+
+.radicado-panel__head h3 {
+  margin: 0 0 0.25rem;
+  font-size: 1rem;
+}
+
+.radicado-panel__head p {
+  margin: 0 0 1rem;
+  font-size: 0.82rem;
+  color: var(--mn-text-muted);
+  line-height: 1.45;
+}
+
+.radicado-panel__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.radicado-panel__status {
+  font-size: 0.85rem;
+  color: var(--mn-text-muted);
+  margin: 0 0 1rem;
+}
+
+.radicado-panel__status--error {
+  color: #b91c1c;
+}
+
+.radicado-panel__status--success {
+  color: #047857;
+  font-weight: 600;
+}
+
+.radicado-panel__score {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.25rem 0.65rem;
+  border-radius: 999px;
+  background: #ecfdf5;
+  color: #047857;
+  font-size: 0.8rem;
+  font-weight: 700;
+  margin-left: 0.5rem;
+}
+
+.radicado-panel__preview {
+  margin-top: 1rem;
+  border: 1px solid var(--mn-border);
+  border-radius: var(--mn-radius-sm);
+  overflow: hidden;
+  background: #f8fafc;
+}
+
+.radicado-panel__preview iframe {
+  display: block;
+  width: 100%;
+  min-height: 420px;
+  border: none;
+}
+
+.radicado-panel__details {
+  margin-top: 1rem;
+  display: grid;
+  gap: 0.75rem;
+}
+
+.radicado-panel__detail {
+  padding: 0.75rem 1rem;
+  border-radius: var(--mn-radius-sm);
+  background: var(--mn-bg);
+  border: 1px solid var(--mn-border);
+  font-size: 0.82rem;
+}
+
+.radicado-panel__detail h4 {
+  margin: 0 0 0.35rem;
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--mn-text-muted);
+}
+
+.radicado-panel__detail p {
+  margin: 0;
+  color: var(--mn-text);
+  line-height: 1.45;
+}
+
+.mn-steps li.mn-steps__active {
+  color: var(--mn-primary);
+  font-weight: 600;
+}
+
+.mn-steps li.mn-steps__active span {
+  background: var(--mn-accent-soft);
+  border-color: var(--mn-primary);
+  color: var(--mn-primary);
+}
+
+.mn-steps li.mn-steps__error span {
+  background: #fef2f2;
+  border-color: #fecaca;
+  color: #b91c1c;
+}

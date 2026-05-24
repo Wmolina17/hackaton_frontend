@@ -4,6 +4,7 @@ import { historialesApi } from "@/api/historiales";
 import { medicamentosApi } from "@/api/medicamentos";
 import { DocumentGeneratorPanel } from "@/components/documents/DocumentGeneratorPanel";
 import { IncapacidadSection } from "@/components/documents/IncapacidadSection";
+import { RadicadoIncapacidadPanel } from "@/components/documents/RadicadoIncapacidadPanel";
 import { MedicoConfigPanel } from "@/components/documents/MedicoConfigPanel";
 import { SignaturePad } from "@/components/documents/SignaturePad";
 import { HistorialEditor } from "@/components/historial/HistorialEditor";
@@ -242,6 +243,15 @@ export function HistorialEditorPage() {
           />
         </div>
       </div>
+
+      {(historial.incapacidad_dias ?? 0) > 0 && (
+        <RadicadoIncapacidadPanel
+          historialId={historialId}
+          historial={historial}
+          disabled={readonly}
+          onToast={(message, type) => setToast({ message, type })}
+        />
+      )}
 
       <DocumentGeneratorPanel
         historial={historial}
